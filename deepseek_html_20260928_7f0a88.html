@@ -1,0 +1,1746 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Apex Team</title>
+<style>
+:root{--bg1:#060c1c;--glowA:rgba(30,111,255,.28);--glowB:rgba(0,180,255,.18);--panel:rgba(11,24,52,.74);--panel-border:rgba(70,150,255,.30);--text:#4da6ff;--text-strong:#8ecbff;--text-dim:#2f7ed8;--accent:#1e6fff;--accent2:#00b4ff;--hover:rgba(40,120,255,.14);--input-bg:rgba(8,18,40,.82);--shadow:0 12px 38px rgba(0,20,70,.5);--gold:#ffc800;--danger:#ff5c7a;--green:#00d68f}
+html[data-theme="light"]{--bg1:#eef4ff;--glowA:rgba(30,111,255,.16);--glowB:rgba(0,180,255,.14);--panel:rgba(255,255,255,.85);--panel-border:rgba(30,111,255,.25);--text:#0d47a1;--text-strong:#082a63;--text-dim:#3b74c9;--accent:#1e6fff;--accent2:#0088ff;--hover:rgba(30,111,255,.10);--input-bg:rgba(255,255,255,.95);--shadow:0 12px 32px rgba(30,80,180,.16);--gold:#c98a00;--danger:#d63353;--green:#009e6a}
+*{box-sizing:border-box}[hidden]{display:none!important}html,body{height:100%}
+body{margin:0;font-family:'Segoe UI',Roboto,system-ui,sans-serif;color:var(--text);background-color:var(--bg1);background-image:radial-gradient(circle at 10% 4%,var(--glowA),transparent 45%),radial-gradient(circle at 90% 96%,var(--glowB),transparent 45%);background-attachment:fixed;min-height:100vh;transition:.35s;-webkit-font-smoothing:antialiased}
+button{font-family:inherit}
+.login-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px}
+.login-card{width:100%;max-width:410px;background:var(--panel);border:1px solid var(--panel-border);border-radius:22px;padding:38px 32px;box-shadow:var(--shadow);backdrop-filter:blur(16px);animation:rise .45s}
+@keyframes rise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+.logo{font-size:32px;font-weight:800;letter-spacing:5px;text-align:center;color:var(--text-strong);text-shadow:0 0 26px rgba(30,111,255,.55)}
+.logo span{color:var(--text);font-weight:300}
+.sub{text-align:center;color:var(--text-dim);font-size:13px;letter-spacing:1px;margin:8px 0 4px;text-transform:uppercase}
+.hint{text-align:center;font-size:12px;color:var(--text-dim);margin-top:18px;line-height:1.5;opacity:.85}
+label{display:block;margin:16px 0 0;font-size:12px;letter-spacing:.8px;text-transform:uppercase;color:var(--text-dim)}
+input,select,textarea{width:100%;margin-top:7px;padding:12px 14px;border-radius:11px;border:1px solid var(--panel-border);background:var(--input-bg);color:var(--text);font:inherit;font-size:15px;outline:none;transition:.2s}
+textarea{resize:vertical;min-height:90px;line-height:1.5;font-family:inherit}
+input:focus,select:focus,textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(30,111,255,.18)}
+input::placeholder,textarea::placeholder{color:var(--text-dim);opacity:.55}
+select option{background:#0b1830;color:#4da6ff}
+html[data-theme="light"] select option{background:#fff;color:#0d47a1}
+.btn{font:inherit;font-weight:600;padding:11px 20px;border-radius:11px;border:1px solid var(--panel-border);background:var(--hover);color:var(--text);cursor:pointer;transition:.2s}
+.btn:hover{border-color:var(--accent2);color:var(--text-strong);box-shadow:0 0 18px rgba(30,111,255,.3)}
+.btn.primary{background:linear-gradient(135deg,#1256e0,#00a6ff);border-color:transparent;color:#e6f3ff}
+.btn.primary:hover{box-shadow:0 0 24px rgba(0,150,255,.55);color:#fff}
+.btn.small{padding:7px 14px;font-size:13px}
+.btn.wide{width:100%;margin-top:24px;padding:13px}
+.btn.active{border-color:var(--accent2);color:var(--text-strong);box-shadow:0 0 18px rgba(30,111,255,.35)}
+.btn.danger{border-color:rgba(255,90,120,.5);color:var(--danger)}
+.btn.green{border-color:rgba(0,214,143,.5);color:var(--green)}
+.msg{margin-top:16px;padding:11px 14px;border-radius:11px;font-size:13.5px;border:1px solid rgba(0,180,255,.45);background:rgba(0,150,255,.12);color:var(--text-strong)}
+.msg:empty{display:none}
+.msg.error{border-color:rgba(255,90,120,.5);background:rgba(255,90,120,.10);color:var(--danger)}
+.msg.success{border-color:rgba(0,214,143,.5);background:rgba(0,214,143,.10);color:var(--green)}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:15px 26px;border-bottom:1px solid var(--panel-border);background:var(--panel);backdrop-filter:blur(16px);position:sticky;top:0;z-index:20;flex-wrap:wrap}
+.brand{font-size:20px;font-weight:800;letter-spacing:4px;color:var(--text-strong)}
+.brand span{font-weight:300;color:var(--text)}
+.user-box{display:flex;align-items:center;gap:12px;font-weight:600;flex-wrap:wrap}
+.avatar-sm{width:38px;height:38px;border-radius:50%;object-fit:cover;border:2px solid var(--accent);box-shadow:0 0 16px rgba(30,111,255,.55)}
+.crown{font-size:18px;filter:drop-shadow(0 0 6px rgba(255,200,0,.7))}
+.balance{font-size:14px;color:var(--gold);font-weight:700;padding:6px 14px;border-radius:10px;border:1px solid rgba(255,200,0,.35);background:rgba(255,200,0,.08)}
+.tabs{display:flex;gap:8px;padding:20px 26px 0;flex-wrap:wrap;max-width:1200px;margin:0 auto}
+.tab{font:inherit;font-weight:600;padding:10px 18px;border-radius:12px 12px 0 0;border:1px solid transparent;border-bottom:none;background:transparent;color:var(--text-dim);cursor:pointer;transition:.2s;font-size:14px}
+.tab:hover{color:var(--text);background:var(--hover)}
+.tab.active{color:var(--text-strong);background:var(--panel);border-color:var(--panel-border)}
+main{padding:0 26px 60px;max-width:1200px;margin:0 auto}
+.panel{background:var(--panel);border:1px solid var(--panel-border);border-radius:0 16px 16px 16px;padding:26px;backdrop-filter:blur(16px);box-shadow:var(--shadow);animation:fade .3s}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.panel-head{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:22px;flex-wrap:wrap}
+.panel-head h2{margin:0;font-size:22px;color:var(--text-strong);letter-spacing:1.5px}
+.cards{display:flex;flex-direction:column;gap:16px}
+.card{background:linear-gradient(150deg,var(--hover),transparent 70%);border:1px solid var(--panel-border);border-radius:16px;padding:20px;transition:.25s}
+.card:hover{border-color:var(--accent);box-shadow:0 0 0 1px rgba(30,111,255,.25),0 10px 30px rgba(0,60,180,.25)}
+.card-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.card-head h3{margin:0 0 12px;font-size:18px;color:var(--text-strong);letter-spacing:.5px}
+.card-actions{display:flex;gap:8px}
+.icon-btn{background:transparent;border:1px solid var(--panel-border);color:var(--text-dim);border-radius:9px;width:34px;height:34px;cursor:pointer;font-size:14px;line-height:1;transition:.2s}
+.icon-btn:hover{border-color:var(--accent2);color:var(--text-strong);box-shadow:0 0 14px rgba(30,111,255,.35)}
+.meta{display:flex;flex-wrap:wrap;gap:8px 22px;font-size:14px;margin-bottom:16px}
+.meta b{color:var(--text-strong)}
+.muted{color:var(--text-dim);font-size:13px;opacity:.8}
+.empty{text-align:center;padding:46px 20px;color:var(--text-dim);font-size:15px;border:1px dashed var(--panel-border);border-radius:16px}
+.settings-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+@media(max-width:760px){.settings-grid{grid-template-columns:1fr}}
+.avatar-preview{display:flex;justify-content:center;margin:18px 0 4px}
+.avatar-preview img{width:98px;height:98px;border-radius:50%;object-fit:cover;border:2px solid var(--accent);box-shadow:0 0 24px rgba(30,111,255,.5)}
+.theme-btns{display:flex;gap:12px;margin-top:18px;flex-wrap:wrap}
+.link-row{display:flex;align-items:center;gap:10px;padding:12px 14px;border-radius:11px;border:1px solid var(--panel-border);background:var(--input-bg);margin-bottom:8px;flex-wrap:wrap}
+.link-row .who{min-width:130px;font-weight:700;color:var(--text-strong)}
+.link-row .who .role{font-size:11px;letter-spacing:1px;color:var(--text-dim);text-transform:uppercase;display:block;font-weight:500}
+.link-row input{flex:1;margin:0;font-family:Consolas,monospace;font-size:12.5px;padding:8px 10px;background:transparent;border:none;color:var(--text);min-width:150px}
+.link-row .copy{padding:6px 12px;font-size:12px;border-radius:8px;background:var(--hover);border:1px solid var(--panel-border);color:var(--text);cursor:pointer;font-weight:600;transition:.2s}
+.link-row .copy:hover{border-color:var(--accent2);color:var(--text-strong)}
+.link-row .copy.done{border-color:#00d68f;color:#00d68f}
+.modal-backdrop{position:fixed;inset:0;background:rgba(3,8,20,.72);backdrop-filter:blur(7px);display:flex;align-items:center;justify-content:center;padding:20px;z-index:100;overflow-y:auto}
+.modal{width:100%;max-width:520px;background:var(--panel);border:1px solid var(--panel-border);border-radius:20px;padding:28px;box-shadow:var(--shadow);backdrop-filter:blur(18px);margin:auto}
+.modal h3{margin:0 0 4px;color:var(--text-strong);font-size:19px}
+.modal-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:26px;flex-wrap:wrap}
+.wallet-summary{display:flex;gap:18px;flex-wrap:wrap;margin-bottom:22px}
+.wallet-stat{flex:1;min-width:180px;padding:18px;border-radius:14px;border:1px solid var(--panel-border);background:linear-gradient(150deg,var(--hover),transparent 70%)}
+.wallet-stat .label{font-size:11px;letter-spacing:1.2px;text-transform:uppercase;color:var(--text-dim);margin-bottom:6px}
+.wallet-stat .value{font-size:26px;font-weight:800;color:var(--gold)}
+.player-wallet{display:flex;align-items:center;gap:14px;padding:14px 16px;border-radius:14px;border:1px solid var(--panel-border);background:var(--input-bg);margin-bottom:10px}
+.player-wallet img{width:42px;height:42px;border-radius:50%;object-fit:cover;border:2px solid var(--accent)}
+.player-wallet .info{flex:1;min-width:0}
+.player-wallet .info b{color:var(--text-strong);display:block;font-size:15px}
+.player-wallet .info code{font-family:Consolas,monospace;font-size:12px;color:var(--text-dim);background:var(--hover);padding:2px 8px;border-radius:6px;display:inline-block;margin-top:3px}
+.player-wallet .amount{font-size:18px;font-weight:800;color:var(--gold);white-space:nowrap}
+.shop-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px}
+.shop-item{border:1px solid var(--panel-border);border-radius:14px;padding:14px;background:linear-gradient(150deg,var(--hover),transparent 70%);transition:.25s;display:flex;flex-direction:column}
+.shop-item:hover{border-color:var(--accent);box-shadow:0 0 24px rgba(30,111,255,.25);transform:translateY(-2px)}
+.shop-item .weapon{font-size:10px;letter-spacing:1.2px;text-transform:uppercase;color:var(--text-dim);margin-bottom:4px}
+.shop-item .name{font-size:14px;font-weight:700;color:var(--text-strong);margin-bottom:2px;line-height:1.3}
+.shop-item .rarity{font-size:10px;letter-spacing:.8px;text-transform:uppercase;margin-bottom:10px;font-weight:600}
+.shop-item .rarity.classified{color:#eb4b4b}
+.shop-item .rarity.covert{color:#d32ce6}
+.shop-item .rarity.contraband{color:#e4ae39}
+.shop-item .rarity.restricted{color:#8847ff}
+.shop-item .rarity.mil-spec{color:#4b69ff}
+.shop-item .rarity.extraordinary{color:#eb4b4b}
+.shop-item .price{font-size:17px;font-weight:800;color:var(--gold);margin-bottom:10px}
+.shop-item .btn{width:100%;margin-top:auto;font-size:12px;padding:9px 12px}
+.shop-item.owned{border-color:rgba(0,214,143,.5);box-shadow:0 0 18px rgba(0,214,143,.15)}
+.shop-item .owned-tag{color:var(--green);font-size:11px;font-weight:700;text-align:center;padding:8px;border:1px dashed rgba(0,214,143,.4);border-radius:10px}
+.inv-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px}
+.inv-item{border:1px solid var(--panel-border);border-radius:14px;padding:14px;background:linear-gradient(150deg,var(--hover),transparent 70%);display:flex;flex-direction:column;transition:.25s}
+.inv-item:hover{border-color:var(--accent);box-shadow:0 0 24px rgba(30,111,255,.25)}
+.inv-item .name{font-size:14px;font-weight:700;color:var(--text-strong);margin-bottom:2px}
+.inv-item .weapon{font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--text-dim);margin-bottom:8px}
+.inv-item .price{font-size:15px;font-weight:800;color:var(--gold);margin-bottom:10px}
+.inv-item .btn{width:100%;margin-top:auto;font-size:12px;padding:9px 12px}
+.upgrade-layout{display:grid;grid-template-columns:1fr auto 1fr;gap:20px;align-items:start}
+@media(max-width:800px){.upgrade-layout{grid-template-columns:1fr}}
+.upgrade-box{border:1px solid var(--panel-border);border-radius:16px;padding:20px;background:var(--input-bg)}
+.upgrade-box h4{margin:0 0 14px;font-size:14px;letter-spacing:1px;text-transform:uppercase;color:var(--text-dim);font-weight:600}
+.upgrade-center{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;padding:20px}
+.wheel-wrap{position:relative;width:240px;height:240px}
+.wheel{width:100%;height:100%;border-radius:50%;border:4px solid var(--panel-border);position:relative;transition:transform 4.5s cubic-bezier(.17,.67,.12,1);box-shadow:0 0 50px rgba(30,111,255,.35);overflow:hidden}
+.wheel-pointer{position:absolute;top:-18px;left:50%;transform:translateX(-50%);font-size:32px;color:var(--gold);z-index:3;filter:drop-shadow(0 0 10px rgba(255,200,0,.9))}
+.wheel-center{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:60px;height:60px;border-radius:50%;background:var(--panel);border:3px solid var(--panel-border);display:flex;align-items:center;justify-content:center;font-size:22px;z-index:2;box-shadow:0 0 20px rgba(30,111,255,.4)}
+.wheel-chance-label{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--text-dim);background:var(--panel);padding:3px 10px;border-radius:999px;border:1px solid var(--panel-border);z-index:2}
+.wheel-result{margin-top:18px;text-align:center;font-size:16px;font-weight:700;min-height:24px}
+.wheel-result.win{color:var(--green)}
+.wheel-result.lose{color:var(--danger)}
+.multiplier-btns{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:16px}
+.mult-btn{padding:8px 18px;border-radius:999px;border:1px solid var(--panel-border);background:transparent;color:var(--text);cursor:pointer;font:inherit;font-weight:700;font-size:14px;transition:.2s}
+.mult-btn:hover{border-color:var(--accent2);color:var(--text-strong)}
+.mult-btn.active{background:rgba(0,190,255,.16);border-color:#00b4ff;color:#7fd8ff;box-shadow:0 0 18px rgba(0,180,255,.35)}
+.multiplier{font-size:13px;color:var(--text-dim);text-align:center;margin-top:8px}
+.multiplier b{color:var(--gold)}
+.inv-select{width:100%;margin-top:7px;padding:10px 12px;border-radius:10px;border:1px solid var(--panel-border);background:var(--input-bg);color:var(--text);font:inherit;font-size:14px}
+.upgrade-btn{width:100%;margin-top:16px;padding:14px;font-size:16px}
+.upgrade-btn:disabled{opacity:.5;cursor:not-allowed}
+.sell-price{font-size:12px;color:var(--text-dim);margin-top:4px}
+.sell-price b{color:var(--green)}
+.chance-info{font-size:13px;text-align:center;margin-top:6px;padding:8px 14px;border-radius:10px;border:1px solid var(--panel-border);background:var(--input-bg)}
+.chance-info b{font-size:18px;color:var(--gold)}
+.quest-tabs{display:flex;gap:10px;margin-bottom:22px;flex-wrap:wrap}
+.quest-tab{padding:11px 22px;border-radius:12px;border:1px solid var(--panel-border);background:transparent;color:var(--text-dim);cursor:pointer;font:inherit;font-weight:600;transition:.2s}
+.quest-tab:hover{color:var(--text);background:var(--hover)}
+.quest-tab.active{color:var(--text-strong);background:var(--hover);border-color:var(--accent);box-shadow:0 0 18px rgba(30,111,255,.35)}
+.game-stats{display:flex;gap:22px;flex-wrap:wrap;margin:18px 0;font-size:15px}
+.game-stats b{color:var(--gold);font-size:18px}
+.game-wall{position:relative;width:100%;height:420px;border-radius:18px;border:2px solid var(--panel-border);background:linear-gradient(160deg,rgba(20,40,90,.55),rgba(8,15,35,.85));overflow:hidden;cursor:crosshair;user-select:none;box-shadow:inset 0 0 60px rgba(0,60,180,.25)}
+.game-wall::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(70,150,255,.08) 1px,transparent 1px),linear-gradient(90deg,rgba(70,150,255,.08) 1px,transparent 1px);background-size:40px 40px;pointer-events:none}
+.ball{position:absolute;width:52px;height:52px;border-radius:50%;background:radial-gradient(circle at 32% 32%,#7fd8ff,#1256e0 70%);cursor:crosshair;box-shadow:0 0 22px rgba(0,180,255,.8),inset -4px -4px 12px rgba(0,0,0,.35);transition:transform .15s;animation:ballFloat 3s ease-in-out infinite}
+.ball:hover{transform:scale(1.12)}
+.ball:active{transform:scale(.85)}
+@keyframes ballFloat{0%,100%{filter:brightness(1)}50%{filter:brightness(1.25)}}
+.ball-pop{position:absolute;font-size:14px;font-weight:800;color:var(--green);pointer-events:none;animation:popUp .7s ease forwards;text-shadow:0 0 10px rgba(0,214,143,.9)}
+@keyframes popUp{0%{opacity:1;transform:translateY(0)}100%{opacity:0;transform:translateY(-50px)}}
+.reaction-wall{width:100%;height:340px;border-radius:18px;border:2px solid var(--panel-border);display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:800;letter-spacing:2px;text-align:center;cursor:pointer;user-select:none;transition:background .15s,color .15s;padding:20px;line-height:1.4}
+.reaction-wall.idle{background:linear-gradient(160deg,rgba(20,40,90,.55),rgba(8,15,35,.85));color:var(--text-strong)}
+.reaction-wall.wait{background:#7a0d2a;color:#ffe0e8;box-shadow:inset 0 0 80px rgba(255,60,90,.5)}
+.reaction-wall.go{background:#00a860;color:#e6fff5;box-shadow:0 0 60px rgba(0,214,143,.65),inset 0 0 60px rgba(0,214,143,.35);cursor:pointer}
+.reaction-wall.early{background:#5a1a1a;color:#ffb0b0}
+.reaction-wall.result{background:linear-gradient(160deg,rgba(0,120,90,.55),rgba(8,30,25,.85));color:#e6fff5}
+.reaction-history{margin-top:14px;display:flex;gap:8px;flex-wrap:wrap}
+.reaction-chip{padding:5px 12px;border-radius:999px;font-size:12.5px;border:1px solid var(--panel-border);background:var(--hover)}
+.reaction-chip.gold{border-color:rgba(255,200,0,.55);color:var(--gold)}
+.reaction-chip.silver{border-color:rgba(0,190,255,.55);color:#7fd8ff}
+.reaction-chip.bronze{border-color:rgba(0,214,143,.55);color:#7ef0c4}
+.team-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px}
+.team-player{display:flex;align-items:center;gap:14px;padding:16px;border-radius:16px;border:1px solid var(--panel-border);background:linear-gradient(150deg,var(--hover),transparent 70%);transition:.25s}
+.team-player:hover{border-color:var(--accent);box-shadow:0 0 24px rgba(30,111,255,.25)}
+.team-player img{width:52px;height:52px;border-radius:50%;object-fit:cover;border:2px solid var(--accent)}
+.team-player .info{flex:1;min-width:0}
+.team-player .info b{color:var(--text-strong);display:block;font-size:16px}
+.team-player .info .login{font-family:Consolas,monospace;font-size:12px;color:var(--text-dim);background:var(--hover);padding:2px 8px;border-radius:6px;display:inline-block;margin-top:3px}
+.team-player .badges{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
+.badge{padding:3px 10px;border-radius:999px;font-size:11px;font-weight:700;letter-spacing:.5px;text-transform:uppercase}
+.badge.reg{background:rgba(0,214,143,.15);border:1px solid rgba(0,214,143,.5);color:var(--green)}
+.badge.noreg{background:rgba(255,90,120,.15);border:1px solid rgba(255,90,120,.5);color:var(--danger)}
+.badge.main{background:rgba(0,180,255,.15);border:1px solid rgba(0,180,255,.5);color:#7fd8ff}
+.badge.bench{background:rgba(255,200,0,.15);border:1px solid rgba(255,200,0,.5);color:var(--gold)}
+.team-player .actions{display:flex;flex-direction:column;gap:6px}
+.team-player .actions button{font-size:12px;padding:6px 12px}
+.chat-layout{display:grid;grid-template-columns:220px 1fr;gap:16px;min-height:500px}
+@media(max-width:700px){.chat-layout{grid-template-columns:1fr}}
+.chat-sidebar{border:1px solid var(--panel-border);border-radius:16px;background:var(--input-bg);padding:14px;overflow-y:auto;max-height:600px}
+.chat-sidebar h4{margin:0 0 12px;font-size:12px;letter-spacing:1.2px;text-transform:uppercase;color:var(--text-dim);font-weight:600}
+.chat-user{display:flex;align-items:center;gap:10px;padding:10px;border-radius:10px;cursor:pointer;transition:.2s;margin-bottom:4px}
+.chat-user:hover{background:var(--hover)}
+.chat-user.active{background:var(--hover);border:1px solid var(--accent);box-shadow:0 0 12px rgba(30,111,255,.3)}
+.chat-user img{width:34px;height:34px;border-radius:50%;object-fit:cover;border:2px solid var(--accent)}
+.chat-user b{font-size:13.5px;color:var(--text-strong)}
+.chat-user .status{width:8px;height:8px;border-radius:50%;background:var(--green);margin-left:auto}
+.chat-main{border:1px solid var(--panel-border);border-radius:16px;background:var(--input-bg);display:flex;flex-direction:column;overflow:hidden}
+.chat-header{padding:14px 18px;border-bottom:1px solid var(--panel-border);display:flex;align-items:center;gap:12px;font-weight:700;color:var(--text-strong)}
+.chat-header img{width:36px;height:36px;border-radius:50%;object-fit:cover;border:2px solid var(--accent)}
+.chat-messages{flex:1;padding:16px;overflow-y:auto;display:flex;flex-direction:column;gap:10px;max-height:440px}
+.chat-msg{padding:10px 14px;border-radius:14px;font-size:14px;line-height:1.5;max-width:75%;word-wrap:break-word}
+.chat-msg.mine{background:linear-gradient(135deg,#1256e0,#00a6ff);color:#fff;align-self:flex-end;border-bottom-right-radius:4px}
+.chat-msg.theirs{background:var(--hover);color:var(--text);align-self:flex-start;border-bottom-left-radius:4px;border:1px solid var(--panel-border)}
+.chat-msg .time{font-size:10px;opacity:.65;display:block;margin-top:4px}
+.chat-input{display:flex;gap:10px;padding:14px;border-top:1px solid var(--panel-border)}
+.chat-input input{flex:1;margin:0}
+.chat-input button{padding:11px 22px}
+.wallet-tabs{display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap}
+.wallet-tab{padding:10px 20px;border-radius:12px;border:1px solid var(--panel-border);background:transparent;color:var(--text-dim);cursor:pointer;font:inherit;font-weight:600;font-size:14px;transition:.2s}
+.wallet-tab:hover{color:var(--text);background:var(--hover)}
+.wallet-tab.active{color:var(--text-strong);background:var(--hover);border-color:var(--accent);box-shadow:0 0 18px rgba(30,111,255,.35)}
+.wallet-form{padding:20px;border-radius:16px;border:1px solid var(--panel-border);background:var(--input-bg);margin-bottom:22px}
+.wallet-form h3{margin:0 0 14px;color:var(--text-strong);font-size:16px}
+.training-tabs{display:flex;gap:10px;margin-bottom:18px;flex-wrap:wrap}
+.training-tab{padding:10px 20px;border-radius:12px;border:1px solid var(--panel-border);background:transparent;color:var(--text-dim);cursor:pointer;font:inherit;font-weight:600;font-size:14px;transition:.2s}
+.training-tab:hover{color:var(--text);background:var(--hover)}
+.training-tab.active{color:var(--text-strong);background:var(--hover);border-color:var(--accent);box-shadow:0 0 18px rgba(30,111,255,.35)}
+.training-card{border:1px solid var(--panel-border);border-radius:14px;padding:16px;background:var(--input-bg);margin-bottom:12px}
+.training-card h4{margin:0 0 10px;color:var(--text-strong);font-size:15px}
+.training-players{display:flex;flex-wrap:wrap;gap:8px}
+.training-player{display:flex;align-items:center;gap:10px;padding:8px 14px;border-radius:10px;border:1px solid var(--panel-border);background:var(--hover);font-size:13.5px}
+.training-player input[type=checkbox]{width:auto;margin:0;cursor:pointer}
+.training-player .pay-input{width:70px;padding:5px 8px;font-size:13px;margin:0}
+.plan-textarea{width:100%;min-height:180px;padding:14px;border-radius:12px;border:1px solid var(--panel-border);background:var(--input-bg);color:var(--text);font:inherit;font-size:14px;resize:vertical;line-height:1.6}
+.stats-table{width:100%;border-collapse:separate;border-spacing:0 8px}
+.stats-table th{text-align:left;font-size:11px;letter-spacing:1.2px;text-transform:uppercase;color:var(--text-dim);padding:0 14px 6px;font-weight:600}
+.stats-table td{background:linear-gradient(150deg,var(--hover),transparent 70%);border-top:1px solid var(--panel-border);border-bottom:1px solid var(--panel-border);padding:12px 14px;vertical-align:middle;font-size:14px}
+.stats-table tr td:first-child{border-left:1px solid var(--panel-border);border-radius:12px 0 0 12px}
+.stats-table tr td:last-child{border-right:1px solid var(--panel-border);border-radius:0 12px 12px 0}
+.stats-table .stat-input{width:70px;padding:6px 8px;font-size:13px;margin:0}
+.guide-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px}
+.guide-card{border:1px solid var(--panel-border);border-radius:16px;overflow:hidden;background:var(--input-bg);transition:.25s;display:flex;flex-direction:column}
+.guide-card:hover{border-color:var(--accent);box-shadow:0 0 28px rgba(30,111,255,.3);transform:translateY(-3px)}
+.guide-card .guide-thumb{width:100%;height:160px;object-fit:cover;background:linear-gradient(160deg,rgba(20,40,90,.6),rgba(8,15,35,.9));display:block}
+.guide-card .guide-body{padding:16px;display:flex;flex-direction:column;gap:8px;flex:1}
+.guide-card .guide-cat{font-size:10px;letter-spacing:1.2px;text-transform:uppercase;color:var(--text-dim);font-weight:600}
+.guide-card .guide-title{font-size:16px;font-weight:800;color:var(--text-strong)}
+.guide-card .guide-desc{font-size:13px;color:var(--text);line-height:1.5;flex:1}
+.tournament-results{margin-top:20px}
+.tournament-result-card{border:1px solid var(--panel-border);border-radius:16px;padding:20px;background:var(--input-bg);margin-bottom:16px}
+.tournament-result-card h4{margin:0 0 14px;color:var(--text-strong);font-size:16px}
+.result-row{display:flex;align-items:center;gap:14px;padding:10px 14px;border-radius:10px;background:var(--hover);margin-bottom:8px;flex-wrap:wrap}
+.result-row .name{font-weight:700;color:var(--text-strong);min-width:100px}
+.result-row .field{display:flex;align-items:center;gap:6px;font-size:13px}
+.result-row .field input{width:60px;padding:5px 8px;font-size:13px;margin:0}
+.result-row .field select{padding:5px 8px;font-size:13px;margin:0;width:auto}
+.case-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px}
+.case-card{border:1px solid var(--panel-border);border-radius:16px;overflow:hidden;background:var(--input-bg);transition:.25s;display:flex;flex-direction:column}
+.case-card:hover{border-color:var(--accent);box-shadow:0 0 28px rgba(30,111,255,.3);transform:translateY(-3px)}
+.case-card .case-thumb{width:100%;height:140px;object-fit:cover;background:linear-gradient(160deg,rgba(20,40,90,.6),rgba(8,15,35,.9));display:flex;align-items:center;justify-content:center;font-size:52px}
+.case-card .case-body{padding:16px;display:flex;flex-direction:column;gap:8px;flex:1}
+.case-card .case-name{font-size:16px;font-weight:800;color:var(--text-strong)}
+.case-card .case-desc{font-size:12px;color:var(--text-dim);line-height:1.4;flex:1}
+.case-card .case-price{font-size:18px;font-weight:800;color:var(--gold)}
+.case-contents{margin-top:10px;padding-top:10px;border-top:1px dashed var(--panel-border)}
+.case-content-item{display:flex;justify-content:space-between;padding:4px 0;font-size:12.5px;border-bottom:1px solid var(--panel-border)}
+.case-content-item:last-child{border-bottom:none}
+.case-content-item .rarity-dot{width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:6px}
+@media(max-width:520px){
+  .topbar{padding:13px 16px}
+  .brand{font-size:16px;letter-spacing:2px}
+  .tabs{padding:14px 16px 0;gap:4px}
+  .tab{padding:8px 12px;font-size:12px}
+  main{padding:0 16px 50px}
+  .panel{padding:18px;border-radius:0 14px 14px 14px}
+  .shop-grid{grid-template-columns:1fr 1fr}
+  .inv-grid{grid-template-columns:1fr 1fr}
+  .wheel-wrap{width:190px;height:190px}
+  .game-wall{height:340px}
+  .ball{width:44px;height:44px}
+  .reaction-wall{height:260px;font-size:20px}
+  .team-grid{grid-template-columns:1fr}
+  .case-grid{grid-template-columns:1fr 1fr}
+  .guide-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<div class="login-wrap" id="loginScreen">
+  <div class="login-card">
+    <div class="logo">APEX<span>TEAM</span></div>
+    <p class="sub">Вход для игроков</p>
+    <label>Логин<input id="loginInput" autocomplete="username" placeholder="apex_alpha"></label>
+    <label>Пароль<input id="passInput" type="password" autocomplete="current-password" placeholder="••••••••"></label>
+    <div class="msg" id="loginMsg"></div>
+    <button class="btn primary wide" id="loginBtn">Войти в команду</button>
+    <p class="hint">Логин и пароль выдаёт лидер команды.<br>Если данных нет — обратись к капитану.</p>
+  </div>
+</div>
+
+<div id="app" hidden>
+  <header class="topbar">
+    <div class="brand">APEX <span>TEAM</span></div>
+    <div class="user-box">
+      <img id="userAvatar" class="avatar-sm" alt="">
+      <span id="crownSlot"></span>
+      <span id="userName"></span>
+      <span class="balance" id="topBalance">💰 0 ₽</span>
+      <button class="btn small" id="logoutBtn">Выйти</button>
+    </div>
+  </header>
+
+  <nav class="tabs">
+    <button class="tab active" data-tab="team">👥 Команда</button>
+    <button class="tab" data-tab="chat">💬 Чат</button>
+    <button class="tab" data-tab="wallet">💰 Копилки</button>
+    <button class="tab" data-tab="trainings">🎯 Тренировки</button>
+    <button class="tab" data-tab="cases">🎁 Кейсы</button>
+    <button class="tab" data-tab="shop">🛒 Магазин</button>
+    <button class="tab" data-tab="upgrade">🎡 Апгрейд</button>
+    <button class="tab" data-tab="inventory">🎒 Инвентарь</button>
+    <button class="tab" data-tab="stats">📊 Статистика</button>
+    <button class="tab" data-tab="tournaments">🏆 Турниры</button>
+    <button class="tab" data-tab="guides">📚 Гайды</button>
+    <button class="tab" data-tab="quests">🎮 Квесты</button>
+    <button class="tab" data-tab="maps">🗺️ Карты</button>
+    <button class="tab leader-only" data-tab="links" hidden>🔗 Ссылки</button>
+    <button class="tab" data-tab="settings">⚙️ Настройки</button>
+  </nav>
+
+  <main>
+    <!-- КОМАНДА -->
+    <section class="panel" id="panel-team">
+      <div class="panel-head"><h2>👥 Состав команды</h2></div>
+      <p class="muted" style="margin-top:-10px;margin-bottom:18px">Все игроки команды. Лидер может отметить, кто в основе, а кто в запасе.</p>
+      <div class="team-grid" id="teamGrid"></div>
+    </section>
+
+    <!-- ЧАТ -->
+    <section class="panel" id="panel-chat" hidden>
+      <div class="panel-head"><h2>💬 Чат</h2></div>
+      <div class="chat-layout">
+        <div class="chat-sidebar" id="chatSidebar"></div>
+        <div class="chat-main">
+          <div class="chat-header" id="chatHeader">Выбери игрока для переписки</div>
+          <div class="chat-messages" id="chatMessages"></div>
+          <div class="chat-input" id="chatInputWrap" hidden>
+            <input id="chatInput" placeholder="Напиши сообщение…" maxlength="500">
+            <button class="btn primary" id="chatSend">Отправить</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- КОПИЛКИ -->
+    <section class="panel" id="panel-wallet" hidden>
+      <div class="panel-head"><h2>💰 Копилки команды</h2></div>
+      <div class="wallet-tabs">
+        <button class="wallet-tab active" data-wallet="training">🎯 Тренировочная</button>
+        <button class="wallet-tab" data-wallet="tournament">🏆 Турнирная</button>
+      </div>
+      <div class="wallet-summary">
+        <div class="wallet-stat"><div class="label">Общий банк (тренировки)</div><div class="value" id="totalTraining">0 ₽</div></div>
+        <div class="wallet-stat"><div class="label">Общий банк (турниры)</div><div class="value" id="totalTournament">0 ₽</div></div>
+        <div class="wallet-stat"><div class="label">Твой баланс</div><div class="value" id="myWalletBalance">0 ₽</div></div>
+      </div>
+      <div class="wallet-form" id="leaderWalletForm" hidden>
+        <h3 id="walletFormTitle">👑 Пополнить тренировочную копилку</h3>
+        <p class="muted" style="margin:0 0 14px;font-size:12.5px">Деньги зачисляются игроку. У лидера они не списываются.</p>
+        <label>Логин игрока<input id="walletTarget" placeholder="apex_alpha"></label>
+        <label>Сумма (₽)<input id="walletAmount" type="number" min="1" step="1" placeholder="500"></label>
+        <div class="msg error" id="walletMsg"></div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:14px">
+          <button class="btn primary" id="walletAddBtn">Закинуть деньги</button>
+          <button class="btn danger" id="walletTakeBtn">Снять 50 ₽ (штраф)</button>
+        </div>
+      </div>
+      <h3 style="color:var(--text-strong);font-size:16px;margin:0 0 14px">Балансы игроков</h3>
+      <div id="walletList"></div>
+    </section>
+
+    <!-- ТРЕНИРОВКИ -->
+    <section class="panel" id="panel-trainings" hidden>
+      <div class="panel-head"><h2>🎯 Тренировки</h2></div>
+      <div class="training-tabs">
+        <button class="training-tab active" data-training="record">📝 Запись</button>
+        <button class="training-tab" data-training="plan">📋 План тренировок</button>
+      </div>
+      <div id="trainingRecordView">
+        <p class="muted" style="margin-top:0;margin-bottom:16px">Лидер отмечает, кто участвует в тренировке, и указывает сумму к зачислению.</p>
+        <div id="trainingList"></div>
+        <button class="btn primary" id="addTraining" style="margin-top:12px">＋ Добавить тренировку</button>
+      </div>
+      <div id="trainingPlanView" hidden>
+        <p class="muted" style="margin-top:0;margin-bottom:16px">План тренировок, который пишет лидер команды.</p>
+        <textarea class="plan-textarea" id="planText" placeholder="Напиши план тренировок…"></textarea>
+        <div style="margin-top:12px;display:flex;gap:10px;flex-wrap:wrap">
+          <button class="btn primary" id="savePlan">💾 Сохранить план</button>
+          <button class="btn" id="editPlan">✎ Редактировать</button>
+        </div>
+        <div class="msg success" id="planMsg"></div>
+      </div>
+    </section>
+
+    <!-- КЕЙСЫ -->
+    <section class="panel" id="panel-cases" hidden>
+      <div class="panel-head"><h2>🎁 Кейсы CS2</h2></div>
+      <p class="muted" style="margin-top:-10px;margin-bottom:18px">Купи кейс за деньги из любой копилки. Внутри — скины, которые можно продать или улучшить в колесе.</p>
+      <div class="msg error" id="caseMsg"></div>
+      <div class="case-grid" id="caseGrid"></div>
+    </section>
+
+    <!-- МАГАЗИН -->
+    <section class="panel" id="panel-shop" hidden>
+      <div class="panel-head"><h2>🛒 Магазин скинов CS2</h2></div>
+      <p class="muted" style="margin-top:-10px;margin-bottom:20px">Цены в рублях. Покупка списывает деньги из копилки.</p>
+      <div class="msg error" id="shopMsg"></div>
+      <div class="shop-grid" id="shopGrid"></div>
+    </section>
+
+    <!-- АПГРЕЙД -->
+    <section class="panel" id="panel-upgrade" hidden>
+      <div class="panel-head"><h2>🎡 Апгрейд скинов</h2></div>
+      <div class="msg error" id="upgradeMsg"></div>
+      <div class="upgrade-layout">
+        <div class="upgrade-box"><h4>🎯 Желаемый скин</h4><select class="inv-select" id="upgradeTarget"></select><div class="chance-info" id="targetChanceInfo">Шанс: <b>—</b></div></div>
+        <div class="upgrade-center">
+          <div class="wheel-wrap"><div class="wheel-pointer">▼</div><div class="wheel" id="wheel"></div><div class="wheel-center">🎰</div><div class="wheel-chance-label" id="wheelChanceLabel">Шанс: —</div></div>
+          <div class="multiplier-btns" id="multBtns"></div>
+          <div class="multiplier" id="multiplierInfo"></div>
+          <button class="btn primary upgrade-btn" id="spinBtn">🎰 Крутить</button>
+          <div class="wheel-result" id="wheelResult"></div>
+        </div>
+        <div class="upgrade-box"><h4>🎒 Твой скин</h4><select class="inv-select" id="upgradeSource"></select><div class="chance-info" id="sourceInfo">Цена: <b>—</b></div></div>
+      </div>
+    </section>
+
+    <!-- ИНВЕНТАРЬ -->
+    <section class="panel" id="panel-inventory" hidden>
+      <div class="panel-head"><h2>🎒 Мой инвентарь</h2></div>
+      <div class="msg success" id="invMsg"></div>
+      <div class="inv-grid" id="invGrid"></div>
+    </section>
+
+    <!-- СТАТИСТИКА -->
+    <section class="panel" id="panel-stats" hidden>
+      <div class="panel-head"><h2>📊 Статистика игроков</h2></div>
+      <p class="muted" style="margin-top:-10px;margin-bottom:18px">Лидер заполняет статистику каждого игрока. Данные видны всем.</p>
+      <div style="overflow-x:auto">
+        <table class="stats-table">
+          <thead>
+            <tr><th>Игрок</th><th>КД</th><th>Победы</th><th>Поражения</th><th>HS%</th><th>ELO Faceit</th><th>ELO Premier</th></tr>
+          </thead>
+          <tbody id="statsTableBody"></tbody>
+        </table>
+      </div>
+      <button class="btn primary" id="saveStats" style="margin-top:16px">💾 Сохранить статистику</button>
+      <div class="msg success" id="statsMsg"></div>
+    </section>
+
+    <!-- ТУРНИРЫ -->
+    <section class="panel" id="panel-tournaments" hidden>
+      <div class="panel-head"><h2>🏆 Турниры</h2></div>
+      <p class="muted" style="margin-top:-10px;margin-bottom:18px">Лидер создаёт турниры и вносит результаты.</p>
+      <button class="btn primary" id="addTournament" style="margin-bottom:18px">＋ Создать турнир</button>
+      <div id="tournamentsList"></div>
+    </section>
+
+    <!-- ГАЙДЫ -->
+    <section class="panel" id="panel-guides" hidden>
+      <div class="panel-head"><h2>📚 Гайды</h2></div>
+      <p class="muted" style="margin-top:-10px;margin-bottom:18px">Раскидки, подсады, контроль отдачи и позиции на всех картах CS2.</p>
+      <div class="guide-grid" id="guideGrid"></div>
+    </section>
+
+    <!-- КВЕСТЫ -->
+    <section class="panel" id="panel-quests" hidden>
+      <div class="panel-head"><h2>🎮 Квесты — заработай деньги</h2></div>
+      <div class="quest-tabs">
+        <button class="quest-tab active" data-quest="balls">🎯 Тир</button>
+        <button class="quest-tab" data-quest="reaction">⚡ Реакция</button>
+      </div>
+      <div class="quest-view" id="quest-balls">
+        <p class="muted">Стреляй по шарикам — <b style="color:var(--gold)">+50 ₽</b> за попадание.</p>
+        <div class="game-wall" id="ballsWall"></div>
+        <div class="game-stats"><span>Попаданий: <b id="ballsHits">0</b></span><span>Заработано: <b id="ballsEarn">0 ₽</b></span></div>
+        <button class="btn" id="ballsReset">🔄 Сбросить</button>
+      </div>
+      <div class="quest-view" id="quest-reaction" hidden>
+        <p class="muted">Жди зелёного и жми! <b style="color:var(--gold)">100–200 мс</b> → +300 ₽ · <b style="color:#7fd8ff">200–350 мс</b> → +90 ₽ · остальное → +5 ₽</p>
+        <div class="reaction-wall idle" id="reactionWall">Нажми, чтобы начать</div>
+        <div class="game-stats"><span>Реакция: <b id="reactionTime">—</b></span><span>Награда: <b id="reactionReward">0 ₽</b></span></div>
+        <div class="reaction-history" id="reactionHistory"></div>
+      </div>
+    </section>
+
+    <!-- КАРТЫ -->
+    <section class="panel" id="panel-maps" hidden>
+      <div class="panel-head"><h2>🗺️ Карты CS2</h2></div>
+      <div class="map-tabs" id="mapTabs"></div>
+      <div class="maps-grid" id="mapsGrid"></div>
+    </section>
+
+    <!-- ССЫЛКИ -->
+    <section class="panel" id="panel-links" hidden>
+      <div class="panel-head"><h2>🔗 Специальные ссылки</h2></div>
+      <div id="linksList" style="margin-top:18px"></div>
+    </section>
+
+    <!-- НАСТРОЙКИ -->
+    <section class="panel" id="panel-settings" hidden>
+      <div class="panel-head"><h2>Настройки</h2></div>
+      <div class="settings-grid">
+        <div class="card">
+          <h3 style="margin-top:0;color:var(--text-strong)">Профиль игрока</h3>
+          <label>Имя в команде<input id="setName" maxlength="20" placeholder="Твой ник"></label>
+          <label>Аватарка<input type="file" id="setAvatar" accept="image/*"></label>
+          <div class="avatar-preview"><img id="avatarPreview" alt=""></div>
+          <div style="margin-top:14px"><button class="btn primary" id="saveProfile">Сохранить профиль</button></div>
+          <div class="msg" id="profileMsg"></div>
+        </div>
+        <div class="card">
+          <h3 style="margin-top:0;color:var(--text-strong)">Тема сайта</h3>
+          <div class="theme-btns">
+            <button class="btn" data-theme-btn="dark">🌙 Тёмная</button>
+            <button class="btn" data-theme-btn="light">☀️ Светлая</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<div class="modal-backdrop" id="modalBackdrop" hidden><div class="modal" id="modalBox"></div></div>
+
+<script>
+(function(){
+'use strict';
+
+/* ============================================================
+   АККАУНТЫ
+   ============================================================ */
+const DEFAULT_ACCOUNTS=[
+  {login:'apex_leader',password:'Apex-Leader-2024!',teamName:'Лидер',role:'leader'},
+  {login:'apex_alpha',password:'Apex-Alpha-7291',teamName:'Alpha',role:'player'},
+  {login:'apex_bravo',password:'Apex-Bravo-4458',teamName:'Bravo',role:'player'},
+  {login:'apex_charlie',password:'Apex-Charlie-9103',teamName:'Charlie',role:'player'},
+  {login:'apex_delta',password:'Apex-Delta-3367',teamName:'Delta',role:'player'},
+  {login:'apex_echo',password:'Apex-Echo-8820',teamName:'Echo',role:'player'},
+  {login:'apex_foxtrot',password:'Apex-Foxtrot-5512',teamName:'Foxtrot',role:'player'},
+  {login:'apex_golf',password:'Apex-Golf-6674',teamName:'Golf',role:'player'},
+  {login:'apex_hotel',password:'Apex-Hotel-2389',teamName:'Hotel',role:'player'},
+  {login:'apex_india',password:'Apex-India-9046',teamName:'India',role:'player'},
+  {login:'apex_juliet',password:'Apex-Juliet-1753',teamName:'Juliet',role:'player'}
+];
+
+/* ============================================================
+   СКИНЫ CS2 (400 штук, цены в рублях)
+   ============================================================ */
+const SHOP_ITEMS=[
+  /* AK-47 (30) */
+  {id:'ak_redline',w:'AK-47',n:'Redline',p:1950,r:'classified'},
+  {id:'ak_inheritance',w:'AK-47',n:'Inheritance',p:2270,r:'covert'},
+  {id:'ak_vulcan',w:'AK-47',n:'Vulcan',p:8500,r:'covert'},
+  {id:'ak_bloodsport',w:'AK-47',n:'Bloodsport',p:9200,r:'covert'},
+  {id:'ak_fireserpent',w:'AK-47',n:'Fire Serpent',p:40850,r:'covert'},
+  {id:'ak_wildlotus',w:'AK-47',n:'Wild Lotus',p:306000,r:'covert'},
+  {id:'ak_fuelinjector',w:'AK-47',n:'Fuel Injector',p:7290,r:'covert'},
+  {id:'ak_casehardened',w:'AK-47',n:'Case Hardened',p:11830,r:'classified'},
+  {id:'ak_hydroponic',w:'AK-47',n:'Hydroponic',p:57460,r:'covert'},
+  {id:'ak_asiimov',w:'AK-47',n:'Asiimov',p:5440,r:'covert'},
+  {id:'ak_neonrider',w:'AK-47',n:'Neon Rider',p:4170,r:'covert'},
+  {id:'ak_empress',w:'AK-47',n:'The Empress',p:3620,r:'covert'},
+  {id:'ak_pointdisarray',w:'AK-47',n:'Point Disarray',p:2870,r:'covert'},
+  {id:'ak_neonrevolution',w:'AK-47',n:'Neon Revolution',p:4520,r:'covert'},
+  {id:'ak_frontsidemisty',w:'AK-47',n:'Frontside Misty',p:2070,r:'classified'},
+  {id:'ak_aquamarine',w:'AK-47',n:'Aquamarine Revenge',p:3330,r:'covert'},
+  {id:'ak_jaguar',w:'AK-47',n:'Jaguar',p:1920,r:'classified'},
+  {id:'ak_wasteland',w:'AK-47',n:'Wasteland Rebel',p:2590,r:'covert'},
+  {id:'ak_jetset',w:'AK-47',n:'Jet Set',p:7520,r:'classified'},
+  {id:'ak_headshot',w:'AK-47',n:'Head Shot',p:1700,r:'restricted'},
+  {id:'ak_icecoaled',w:'AK-47',n:'Ice Coaled',p:260,r:'classified'},
+  {id:'ak_slate',w:'AK-47',n:'Slate',p:215,r:'restricted'},
+  {id:'ak_elitebuild',w:'AK-47',n:'Elite Build',p:108,r:'mil-spec'},
+  {id:'ak_uncharted',w:'AK-47',n:'Uncharted',p:360,r:'restricted'},
+  {id:'ak_midnightlaminate',w:'AK-47',n:'Midnight Laminate',p:1075,r:'classified'},
+  {id:'ak_legionofanubis',w:'AK-47',n:'Legion of Anubis',p:2150,r:'covert'},
+  {id:'ak_theoutsiders',w:'AK-47',n:'The Outsiders',p:1850,r:'covert'},
+  {id:'ak_searingrage',w:'AK-47',n:'Searing Rage',p:1350,r:'classified'},
+  {id:'ak_chromecannon',w:'AK-47',n:'Chrome Cannon',p:7800,r:'covert'},
+  {id:'ak_slate2',w:'AK-47',n:'Slate (Factory New)',p:330,r:'restricted'},
+
+  /* AWP (28) */
+  {id:'awp_asiimov',w:'AWP',n:'Asiimov',p:6035,r:'covert'},
+  {id:'awp_dragonlore',w:'AWP',n:'Dragon Lore',p:379000,r:'covert'},
+  {id:'awp_gungnir',w:'AWP',n:'Gungnir',p:507000,r:'covert'},
+  {id:'awp_printstream',w:'AWP',n:'Printstream',p:3155,r:'covert'},
+  {id:'awp_lightning',w:'AWP',n:'Lightning Strike',p:38760,r:'covert'},
+  {id:'awp_hyperbeast',w:'AWP',n:'Hyper Beast',p:4025,r:'covert'},
+  {id:'awp_neonoir',w:'AWP',n:'Neo-Noir',p:5520,r:'covert'},
+  {id:'awp_wildfire',w:'AWP',n:'Wildfire',p:5880,r:'covert'},
+  {id:'awp_feverdream',w:'AWP',n:'Fever Dream',p:1830,r:'covert'},
+  {id:'awp_containment',w:'AWP',n:'Containment Breach',p:7610,r:'covert'},
+  {id:'awp_chromatic',w:'AWP',n:'Chromatic Aberration',p:2115,r:'covert'},
+  {id:'awp_atheris',w:'AWP',n:'Atheris',p:327,r:'restricted'},
+  {id:'awp_mortis',w:'AWP',n:'Mortis',p:2760,r:'covert'},
+  {id:'awp_exoskeleton',w:'AWP',n:'Exoskeleton',p:1220,r:'restricted'},
+  {id:'awp_onitaiji',w:'AWP',n:'Oni Taiji',p:18060,r:'covert'},
+  {id:'awp_empress',w:'AWP',n:'The Empress',p:8280,r:'covert'},
+  {id:'awp_medusa',w:'AWP',n:'Medusa',p:296700,r:'covert'},
+  {id:'awp_fade',w:'AWP',n:'Fade',p:73100,r:'covert'},
+  {id:'awp_boom',w:'AWP',n:'BOOM',p:12040,r:'covert'},
+  {id:'awp_electrichive',w:'AWP',n:'Electric Hive',p:3620,r:'covert'},
+  {id:'awp_redline',w:'AWP',n:'Redline',p:2390,r:'classified'},
+  {id:'awp_crakow',w:'AWP',n:'Crakow!',p:1100,r:'classified'},
+  {id:'awp_duality',w:'AWP',n:'Duality',p:1420,r:'covert'},
+  {id:'awp_chromecannon',w:'AWP',n:'Chrome Cannon',p:7800,r:'covert'},
+  {id:'awp_dragonfire',w:'AWP',n:'Dragonfire',p:5200,r:'covert'},
+  {id:'awp_manowar',w:'AWP',n:'Man-o\'-war',p:2100,r:'covert'},
+  {id:'awp_wildfire2',w:'AWP',n:'Wildfire',p:5880,r:'covert'},
+  {id:'awp_asiimov2',w:'AWP',n:'Asiimov (Field-Tested)',p:5200,r:'covert'},
+
+  /* M4A4 (24) */
+  {id:'m4a4_howl',w:'M4A4',n:'Howl',p:613000,r:'contraband'},
+  {id:'m4a4_temukau',w:'M4A4',n:'Temukau',p:1835,r:'covert'},
+  {id:'m4a4_asiimov',w:'M4A4',n:'Asiimov',p:5700,r:'covert'},
+  {id:'m4a4_emperor',w:'M4A4',n:'The Emperor',p:7240,r:'covert'},
+  {id:'m4a4_neonoir',w:'M4A4',n:'Neo-Noir',p:3160,r:'covert'},
+  {id:'m4a4_desolate',w:'M4A4',n:'Desolate Space',p:2400,r:'covert'},
+  {id:'m4a4_cybersec',w:'M4A4',n:'Cyber Security',p:1255,r:'covert'},
+  {id:'m4a4_dragonking',w:'M4A4',n:'龍王 Dragon King',p:1065,r:'covert'},
+  {id:'m4a4_bulletrain',w:'M4A4',n:'Bullet Rain',p:1985,r:'covert'},
+  {id:'m4a4_poseidon',w:'M4A4',n:'Poseidon',p:78700,r:'covert'},
+  {id:'m4a4_daybreak',w:'M4A4',n:'Daybreak',p:1315,r:'restricted'},
+  {id:'m4a4_royalpaladin',w:'M4A4',n:'Royal Paladin',p:1565,r:'covert'},
+  {id:'m4a4_magnesium',w:'M4A4',n:'Magnesium',p:352,r:'restricted'},
+  {id:'m4a4_spiderlily',w:'M4A4',n:'Spider Lily',p:520,r:'restricted'},
+  {id:'m4a4_etchlord',w:'M4A4',n:'Etch Lord',p:275,r:'restricted'},
+  {id:'m4a4_evildaimyo',w:'M4A4',n:'Evil Daimyo',p:500,r:'restricted'},
+  {id:'m4a4_fullthrottle',w:'M4A4',n:'Full Throttle',p:2290,r:'covert'},
+  {id:'m4a4_oligarch',w:'M4A4',n:'The Oligarch',p:2805,r:'covert'},
+  {id:'m4a4_choppa',w:'M4A4',n:'Choppa',p:180,r:'mil-spec'},
+  {id:'m4a4_toothfairy',w:'M4A4',n:'Tooth Fairy',p:260,r:'classified'},
+  {id:'m4a4_neonoir2',w:'M4A4',n:'Neo-Noir (MW)',p:2900,r:'covert'},
+  {id:'m4a4_griffin',w:'M4A4',n:'Griffin',p:120,r:'restricted'},
+  {id:'m4a4_evil_daimyo',w:'M4A4',n:'Evil Daimyo',p:500,r:'restricted'},
+  {id:'m4a4_converter',w:'M4A4',n:'Converter',p:90,r:'mil-spec'},
+
+  /* M4A1-S (22) */
+  {id:'m4a1_printstream',w:'M4A1-S',n:'Printstream',p:11065,r:'covert'},
+  {id:'m4a1_fade',w:'M4A1-S',n:'Fade',p:15900,r:'covert'},
+  {id:'m4a1_hyperbeast',w:'M4A1-S',n:'Hyper Beast',p:2680,r:'covert'},
+  {id:'m4a1_goldencoil',w:'M4A1-S',n:'Golden Coil',p:3345,r:'covert'},
+  {id:'m4a1_cyrex',w:'M4A1-S',n:'Cyrex',p:1100,r:'covert'},
+  {id:'m4a1_mecha',w:'M4A1-S',n:'Mecha Industries',p:3665,r:'covert'},
+  {id:'m4a1_bluephos',w:'M4A1-S',n:'Blue Phosphor',p:4480,r:'covert'},
+  {id:'m4a1_playertwo',w:'M4A1-S',n:'Player Two',p:1830,r:'covert'},
+  {id:'m4a1_chantico',w:'M4A1-S',n:"Chantico's Fire",p:2965,r:'covert'},
+  {id:'m4a1_masterpiece',w:'M4A1-S',n:'Master Piece',p:9460,r:'covert'},
+  {id:'m4a1_welcometojungle',w:'M4A1-S',n:'Welcome to the Jungle',p:124700,r:'covert'},
+  {id:'m4a1_hotrod',w:'M4A1-S',n:'Hot Rod',p:105500,r:'classified'},
+  {id:'m4a1_blacklotus',w:'M4A1-S',n:'Black Lotus',p:240,r:'classified'},
+  {id:'m4a1_icarusfell',w:'M4A1-S',n:'Icarus Fell',p:41590,r:'restricted'},
+  {id:'m4a1_knight',w:'M4A1-S',n:'Knight',p:161800,r:'classified'},
+  {id:'m4a1_darkwater',w:'M4A1-S',n:'Dark Water',p:1060,r:'restricted'},
+  {id:'m4a1_partyanimal',w:'M4A1-S',n:'Party Animal',p:730,r:'restricted'},
+  {id:'m4a1_liquidation',w:'M4A1-S',n:'Liquidation',p:290,r:'restricted'},
+  {id:'m4a1_vaporwave',w:'M4A1-S',n:'Vaporwave',p:103200,r:'covert'},
+  {id:'m4a1_solitude',w:'M4A1-S',n:'Solitude',p:950,r:'classified'},
+  {id:'m4a1_emphorosaur',w:'M4A1-S',n:'Emphorosaur-S',p:230,r:'classified'},
+  {id:'m4a1_nightterror',w:'M4A1-S',n:'Night Terror',p:220,r:'classified'},
+
+  /* USP-S (14) */
+  {id:'usp_printstream',w:'USP-S',n:'Printstream',p:2535,r:'covert'},
+  {id:'usp_kill',w:'USP-S',n:'Kill Confirmed',p:7655,r:'covert'},
+  {id:'usp_neonoir',w:'USP-S',n:'Neo-Noir',p:1755,r:'covert'},
+  {id:'usp_orion',w:'USP-S',n:'Orion',p:5040,r:'covert'},
+  {id:'usp_cortex',w:'USP-S',n:'Cortex',p:963,r:'covert'},
+  {id:'usp_traitor',w:'USP-S',n:'The Traitor',p:3635,r:'covert'},
+  {id:'usp_startorrent',w:'USP-S',n:'Star Torrent',p:550,r:'restricted'},
+  {id:'usp_whiteout',w:'USP-S',n:'Whiteout',p:1625,r:'restricted'},
+  {id:'usp_cyrex',w:'USP-S',n:'Cyrex',p:705,r:'restricted'},
+  {id:'usp_spiralglitch',w:'USP-S',n:'Spiral Glitch',p:1290,r:'classified'},
+  {id:'usp_blueprint',w:'USP-S',n:'Blueprint',p:387,r:'restricted'},
+  {id:'usp_para',w:'USP-S',n:'Para Green',p:180,r:'restricted'},
+  {id:'usp_jawbreaker',w:'USP-S',n:'Jawbreaker',p:2065,r:'classified'},
+  {id:'usp_pcgrn',w:'USP-S',n:'PC-GRN',p:95,r:'mil-spec'},
+
+  /* Glock-18 (12) */
+  {id:'glock_fade',w:'Glock-18',n:'Fade',p:140300,r:'restricted'},
+  {id:'glock_water',w:'Glock-18',n:'Water Elemental',p:705,r:'restricted'},
+  {id:'glock_neonoir',w:'Glock-18',n:'Neo-Noir',p:1230,r:'covert'},
+  {id:'glock_gammadoppler',w:'Glock-18',n:'Gamma Doppler',p:2130,r:'covert'},
+  {id:'glock_twilight',w:'Glock-18',n:'Twilight Galaxy',p:2940,r:'covert'},
+  {id:'glock_wasteland',w:'Glock-18',n:'Wasteland Rebel',p:525,r:'restricted'},
+  {id:'glock_bulletqueen',w:'Glock-18',n:'Bullet Queen',p:1065,r:'covert'},
+  {id:'glock_weasel',w:'Glock-18',n:'Weasel',p:1420,r:'covert'},
+  {id:'glock_fullytuned',w:'Glock-18',n:'Fully Tuned',p:843,r:'classified'},
+  {id:'glock_ghostprotocol',w:'Glock-18',n:'Ghost Protocol',p:3440,r:'covert'},
+  {id:'glock_goldtoof',w:'Glock-18',n:'Gold Toof',p:192400,r:'covert'},
+  {id:'glock_shinobu',w:'Glock-18',n:'Shinobu',p:1150,r:'classified'},
+
+  /* Desert Eagle (12) */
+  {id:'deagle_printstream',w:'Desert Eagle',n:'Printstream',p:2485,r:'covert'},
+  {id:'deagle_blaze',w:'Desert Eagle',n:'Blaze',p:52170,r:'restricted'},
+  {id:'deagle_codered',w:'Desert Eagle',n:'Code Red',p:2760,r:'covert'},
+  {id:'deagle_kumicho',w:'Desert Eagle',n:'Kumicho Dragon',p:2440,r:'covert'},
+  {id:'deagle_mecha',w:'Desert Eagle',n:'Mecha Industries',p:2090,r:'covert'},
+  {id:'deagle_oceandrive',w:'Desert Eagle',n:'Ocean Drive',p:3920,r:'covert'},
+  {id:'deagle_hypnotic',w:'Desert Eagle',n:'Hypnotic',p:35260,r:'restricted'},
+  {id:'deagle_fennec',w:'Desert Eagle',n:'Fennec Fox',p:1590,r:'classified'},
+  {id:'deagle_meteorite',w:'Desert Eagle',n:'Meteorite',p:79,r:'mil-spec'},
+  {id:'deagle_sputnik',w:'Desert Eagle',n:'Sputnik',p:167,r:'mil-spec'},
+  {id:'deagle_serpent',w:'Desert Eagle',n:'Serpent Strike',p:2100,r:'restricted'},
+  {id:'deagle_tilted',w:'Desert Eagle',n:'Tilted',p:75,r:'restricted'},
+
+  /* Ножи (65) */
+  {id:'karambit_doppler',w:'★ Karambit',n:'Doppler',p:104940,r:'covert'},
+  {id:'karambit_fade',w:'★ Karambit',n:'Fade',p:153420,r:'covert'},
+  {id:'karambit_gammadoppler',w:'★ Karambit',n:'Gamma Doppler',p:138460,r:'covert'},
+  {id:'karambit_marblefade',w:'★ Karambit',n:'Marble Fade',p:83560,r:'covert'},
+  {id:'karambit_tigertooth',w:'★ Karambit',n:'Tiger Tooth',p:70940,r:'covert'},
+  {id:'karambit_casehardened',w:'★ Karambit',n:'Case Hardened',p:157530,r:'covert'},
+  {id:'karambit_boreal',w:'★ Karambit',n:'Boreal Forest',p:119080,r:'covert'},
+  {id:'karambit_crimsonweb',w:'★ Karambit',n:'Crimson Web',p:245000,r:'covert'},
+  {id:'butterfly_fade',w:'★ Butterfly Knife',n:'Fade',p:175800,r:'covert'},
+  {id:'butterfly_doppler',w:'★ Butterfly Knife',n:'Doppler',p:169850,r:'covert'},
+  {id:'butterfly_gammadoppler',w:'★ Butterfly Knife',n:'Gamma Doppler',p:149210,r:'covert'},
+  {id:'butterfly_marblefade',w:'★ Butterfly Knife',n:'Marble Fade',p:112610,r:'covert'},
+  {id:'butterfly_slaughter',w:'★ Butterfly Knife',n:'Slaughter',p:94650,r:'covert'},
+  {id:'butterfly_tigertooth',w:'★ Butterfly Knife',n:'Tiger Tooth',p:90790,r:'covert'},
+  {id:'butterfly_casehardened',w:'★ Butterfly Knife',n:'Case Hardened',p:199870,r:'covert'},
+  {id:'butterfly_boreal',w:'★ Butterfly Knife',n:'Boreal Forest',p:133000,r:'covert'},
+  {id:'butterfly_lore',w:'★ Butterfly Knife',n:'Lore',p:145000,r:'covert'},
+  {id:'m9_gammadoppler',w:'★ M9 Bayonet',n:'Gamma Doppler',p:99550,r:'covert'},
+  {id:'m9_fade',w:'★ M9 Bayonet',n:'Fade',p:76540,r:'covert'},
+  {id:'m9_doppler',w:'★ M9 Bayonet',n:'Doppler',p:75620,r:'covert'},
+  {id:'m9_slaughter',w:'★ M9 Bayonet',n:'Slaughter',p:55040,r:'covert'},
+  {id:'m9_casehardened',w:'★ M9 Bayonet',n:'Case Hardened',p:44720,r:'covert'},
+  {id:'m9_tigertooth',w:'★ M9 Bayonet',n:'Tiger Tooth',p:68000,r:'covert'},
+  {id:'talon_doppler',w:'★ Talon Knife',n:'Doppler',p:64800,r:'covert'},
+  {id:'talon_fade',w:'★ Talon Knife',n:'Fade',p:64130,r:'covert'},
+  {id:'talon_crimson',w:'★ Talon Knife',n:'Crimson Web',p:31130,r:'covert'},
+  {id:'talon_bluesteel',w:'★ Talon Knife',n:'Blue Steel',p:38270,r:'covert'},
+  {id:'talon_forestddpat',w:'★ Talon Knife',n:'Forest DDPAT',p:309260,r:'covert'},
+  {id:'navaja_slaughter',w:'★ Navaja Knife',n:'Slaughter',p:9030,r:'covert'},
+  {id:'navaja_rustcoat',w:'★ Navaja Knife',n:'Rust Coat',p:2874,r:'covert'},
+  {id:'navaja_bluesteel',w:'★ Navaja Knife',n:'Blue Steel',p:3870,r:'covert'},
+  {id:'navaja_casehardened',w:'★ Navaja Knife',n:'Case Hardened',p:7310,r:'covert'},
+  {id:'navaja_damascus',w:'★ Navaja Knife',n:'Damascus Steel',p:14280,r:'covert'},
+  {id:'nomad_slaughter',w:'★ Nomad Knife',n:'Slaughter',p:30010,r:'covert'},
+  {id:'nomad_forestddpat',w:'★ Nomad Knife',n:'Forest DDPAT',p:152390,r:'covert'},
+  {id:'nomad_scorched',w:'★ Nomad Knife',n:'Scorched',p:113520,r:'covert'},
+  {id:'nomad_damascus',w:'★ Nomad Knife',n:'Damascus Steel',p:42710,r:'covert'},
+  {id:'kukri_slaughter',w:'★ Kukri Knife',n:'Slaughter',p:27520,r:'covert'},
+  {id:'kukri_casehardened',w:'★ Kukri Knife',n:'Case Hardened',p:38560,r:'covert'},
+  {id:'kukri_fade',w:'★ Kukri Knife',n:'Fade',p:42730,r:'covert'},
+  {id:'kukri_crimsonweb',w:'★ Kukri Knife',n:'Crimson Web',p:76540,r:'covert'},
+  {id:'kukri_scorched',w:'★ Kukri Knife',n:'Scorched',p:19340,r:'covert'},
+  {id:'skeleton_fade',w:'★ Skeleton Knife',n:'Fade',p:170280,r:'covert'},
+  {id:'skeleton_boreal',w:'★ Skeleton Knife',n:'Boreal Forest',p:74810,r:'covert'},
+  {id:'skeleton_crimsonweb',w:'★ Skeleton Knife',n:'Crimson Web',p:129000,r:'covert'},
+  {id:'skeleton_slaughter',w:'★ Skeleton Knife',n:'Slaughter',p:88500,r:'covert'},
+  {id:'skeleton_damascus',w:'★ Skeleton Knife',n:'Damascus Steel',p:63200,r:'covert'},
+  {id:'shadowdaggers_brightwater',w:'★ Shadow Daggers',n:'Bright Water',p:2830,r:'covert'},
+  {id:'shadowdaggers_blacklaminate',w:'★ Shadow Daggers',n:'Black Laminate',p:2850,r:'covert'},
+  {id:'shadowdaggers_safarimesh',w:'★ Shadow Daggers',n:'Safari Mesh',p:2410,r:'covert'},
+  {id:'shadowdaggers_doppler',w:'★ Shadow Daggers',n:'Doppler',p:31500,r:'covert'},
+  {id:'shadowdaggers_fade',w:'★ Shadow Daggers',n:'Fade',p:38700,r:'covert'},
+  {id:'shadowdaggers_slaughter',w:'★ Shadow Daggers',n:'Slaughter',p:28400,r:'covert'},
+  {id:'gut_doppler',w:'★ Gut Knife',n:'Doppler',p:18200,r:'covert'},
+  {id:'gut_fade',w:'★ Gut Knife',n:'Fade',p:21500,r:'covert'},
+  {id:'gut_slaughter',w:'★ Gut Knife',n:'Slaughter',p:12800,r:'covert'},
+  {id:'gut_crimsonweb',w:'★ Gut Knife',n:'Crimson Web',p:38500,r:'covert'},
+  {id:'bowie_gammadoppler',w:'★ Bowie Knife',n:'Gamma Doppler',p:20800,r:'covert'},
+  {id:'bowie_fade',w:'★ Bowie Knife',n:'Fade',p:24600,r:'covert'},
+  {id:'bowie_crimsonweb',w:'★ Bowie Knife',n:'Crimson Web',p:88400,r:'covert'},
+  {id:'bowie_slaughter',w:'★ Bowie Knife',n:'Slaughter',p:16900,r:'covert'},
+  {id:'bowie_doppler',w:'★ Bowie Knife',n:'Doppler',p:19500,r:'covert'},
+  {id:'huntsman_gammadoppler',w:'★ Huntsman Knife',n:'Gamma Doppler',p:22400,r:'covert'},
+  {id:'huntsman_fade',w:'★ Huntsman Knife',n:'Fade',p:26800,r:'covert'},
+  {id:'huntsman_slaughter',w:'★ Huntsman Knife',n:'Slaughter',p:18500,r:'covert'},
+
+  /* Перчатки (55) */
+  {id:'specialist_tiger',w:'★ Specialist Gloves',n:'Tiger Strike',p:8600,r:'extraordinary'},
+  {id:'specialist_crimson',w:'★ Specialist Gloves',n:'Crimson Kimono',p:94080,r:'extraordinary'},
+  {id:'specialist_buckshot',w:'★ Specialist Gloves',n:'Buckshot',p:3142,r:'extraordinary'},
+  {id:'specialist_emerald',w:'★ Specialist Gloves',n:'Emerald Web',p:125350,r:'extraordinary'},
+  {id:'specialist_lt',w:'★ Specialist Gloves',n:'Lt. Commander',p:88420,r:'extraordinary'},
+  {id:'specialist_marblefade',w:'★ Specialist Gloves',n:'Marble Fade',p:44720,r:'extraordinary'},
+  {id:'specialist_fade',w:'★ Specialist Gloves',n:'Fade',p:58480,r:'extraordinary'},
+  {id:'specialist_fieldagent',w:'★ Specialist Gloves',n:'Field Agent',p:60440,r:'extraordinary'},
+  {id:'driver_kingsnake',w:'★ Driver Gloves',n:'King Snake',p:7810,r:'extraordinary'},
+  {id:'driver_racinggreen',w:'★ Driver Gloves',n:'Racing Green',p:2708,r:'extraordinary'},
+  {id:'driver_overtake',w:'★ Driver Gloves',n:'Overtake',p:3881,r:'extraordinary'},
+  {id:'driver_crimsonweave',w:'★ Driver Gloves',n:'Crimson Weave',p:80840,r:'extraordinary'},
+  {id:'driver_lunarweave',w:'★ Driver Gloves',n:'Lunar Weave',p:88420,r:'extraordinary'},
+  {id:'driver_snowleopard',w:'★ Driver Gloves',n:'Snow Leopard',p:23480,r:'extraordinary'},
+  {id:'driver_imperialplaid',w:'★ Driver Gloves',n:'Imperial Plaid',p:13330,r:'extraordinary'},
+  {id:'driver_blacktie',w:'★ Driver Gloves',n:'Black Tie',p:4850,r:'extraordinary'},
+  {id:'sport_biggame',w:'★ Sport Gloves',n:'Big Game',p:8570,r:'extraordinary'},
+  {id:'sport_pandora',w:'★ Sport Gloves',n:'Pandora\'s Box',p:171840,r:'extraordinary'},
+  {id:'sport_vice',w:'★ Sport Gloves',n:'Vice',p:22960,r:'extraordinary'},
+  {id:'sport_hedgemaze',w:'★ Sport Gloves',n:'Hedge Maze',p:191850,r:'extraordinary'},
+  {id:'sport_nocts',w:'★ Sport Gloves',n:'Nocts',p:36880,r:'extraordinary'},
+  {id:'sport_amphibious',w:'★ Sport Gloves',n:'Amphibious',p:18810,r:'extraordinary'},
+  {id:'sport_superconductor',w:'★ Sport Gloves',n:'Superconductor',p:125350,r:'extraordinary'},
+  {id:'sport_slingshot',w:'★ Sport Gloves',n:'Slingshot',p:277070,r:'extraordinary'},
+  {id:'sport_ultraviolet',w:'★ Sport Gloves',n:'Ultra Violent',p:549200,r:'extraordinary'},
+  {id:'sport_arid',w:'★ Sport Gloves',n:'Arid',p:85500,r:'extraordinary'},
+  {id:'sport_blaze',w:'★ Sport Gloves',n:'Blaze',p:92800,r:'extraordinary'},
+  {id:'moto_spearmint',w:'★ Moto Gloves',n:'Spearmint',p:90300,r:'extraordinary'},
+  {id:'moto_transport',w:'★ Moto Gloves',n:'Transport',p:3458,r:'extraordinary'},
+  {id:'moto_pow',w:'★ Moto Gloves',n:'POW!',p:3598,r:'extraordinary'},
+  {id:'moto_turtle',w:'★ Moto Gloves',n:'Turtle',p:4644,r:'extraordinary'},
+  {id:'moto_polygon',w:'★ Moto Gloves',n:'Polygon',p:8600,r:'extraordinary'},
+  {id:'moto_3rdcommando',w:'★ Moto Gloves',n:'3rd Commando Company',p:3611,r:'extraordinary'},
+  {id:'moto_eclipse',w:'★ Moto Gloves',n:'Eclipse',p:83560,r:'extraordinary'},
+  {id:'moto_boom',w:'★ Moto Gloves',n:'Boom!',p:17410,r:'extraordinary'},
+  {id:'handwraps_caution',w:'★ Hand Wraps',n:'CAUTION!',p:7965,r:'extraordinary'},
+  {id:'handwraps_desertshamagh',w:'★ Hand Wraps',n:'Desert Shamagh',p:3638,r:'extraordinary'},
+  {id:'handwraps_giraffe',w:'★ Hand Wraps',n:'Giraffe',p:3709,r:'extraordinary'},
+  {id:'handwraps_arboreal',w:'★ Hand Wraps',n:'Arboreal',p:3733,r:'extraordinary'},
+  {id:'handwraps_constrictor',w:'★ Hand Wraps',n:'Constrictor',p:3893,r:'extraordinary'},
+  {id:'handwraps_ducttape',w:'★ Hand Wraps',n:'Duct Tape',p:4071,r:'extraordinary'},
+  {id:'handwraps_slaughter',w:'★ Hand Wraps',n:'Slaughter',p:27520,r:'extraordinary'},
+  {id:'handwraps_spruce',w:'★ Hand Wraps',n:'Spruce DDPAT',p:4200,r:'extraordinary'},
+  {id:'bloodhound_guerrilla',w:'★ Bloodhound Gloves',n:'Guerrilla',p:38500,r:'extraordinary'},
+  {id:'bloodhound_charred',w:'★ Bloodhound Gloves',n:'Charred',p:28100,r:'extraordinary'},
+  {id:'bloodhound_bronzed',w:'★ Bloodhound Gloves',n:'Bronzed',p:33500,r:'extraordinary'},
+  {id:'bloodhound_snakebite',w:'★ Bloodhound Gloves',n:'Snakebite',p:42300,r:'extraordinary'},
+  {id:'brokenfang_unhinged',w:'★ Broken Fang Gloves',n:'Unhinged',p:38750,r:'extraordinary'},
+  {id:'brokenfang_jade',w:'★ Broken Fang Gloves',n:'Jade',p:55200,r:'extraordinary'},
+  {id:'brokenfang_yellowband',w:'★ Broken Fang Gloves',n:'Yellow-banded',p:31800,r:'extraordinary'},
+  {id:'brokenfang_needle',w:'★ Broken Fang Gloves',n:'Needle Point',p:28400,r:'extraordinary'},
+  {id:'hydra_rattler',w:'★ Hydra Gloves',n:'Rattler',p:3270,r:'extraordinary'},
+  {id:'hydra_casehardened',w:'★ Hydra Gloves',n:'Case Hardened',p:21400,r:'extraordinary'},
+  {id:'hydra_emerald',w:'★ Hydra Gloves',n:'Emerald',p:18600,r:'extraordinary'},
+  {id:'hydra_mangrove',w:'★ Hydra Gloves',n:'Mangrove',p:25800,r:'extraordinary'},
+
+  /* Прочее оружие (40) */
+  {id:'galil_eco',w:'Galil AR',n:'Eco',p:755,r:'classified'},
+  {id:'galil_destroyer',w:'Galil AR',n:'Destroyer',p:30,r:'mil-spec'},
+  {id:'galil_control',w:'Galil AR',n:'Control',p:420,r:'restricted'},
+  {id:'famas_mecha',w:'FAMAS',n:'Mecha Industries',p:1194,r:'classified'},
+  {id:'famas_badtrip',w:'FAMAS',n:'Bad Trip',p:380,r:'covert'},
+  {id:'mp7_whiteout',w:'MP7',n:'Whiteout',p:143000,r:'mil-spec'},
+  {id:'mp7_bloodsport',w:'MP7',n:'Bloodsport',p:420,r:'classified'},
+  {id:'mp9_nexus',w:'MP9',n:'Nexus',p:75,r:'mil-spec'},
+  {id:'mp9_starlight',w:'MP9',n:'Starlight Protector',p:1850,r:'covert'},
+  {id:'cz75_chalice',w:'CZ75-Auto',n:'Chalice',p:326190,r:'restricted'},
+  {id:'cz75_xianliu',w:'CZ75-Auto',n:'Xiangliu',p:800,r:'restricted'},
+  {id:'mac10_fade',w:'MAC-10',n:'Fade',p:3694,r:'mil-spec'},
+  {id:'mac10_neonrider',w:'MAC-10',n:'Neon Rider',p:1150,r:'restricted'},
+  {id:'mac10_umbar',w:'MAC-10',n:'Umbral Rabbit',p:680,r:'restricted'},
+  {id:'p2000_redwing',w:'P2000',n:'Red Wing',p:118,r:'restricted'},
+  {id:'p2000_suregrip',w:'P2000',n:'Sure Grip',p:70,r:'mil-spec'},
+  {id:'p250_epicenter',w:'P250',n:'Epicenter',p:220,r:'restricted'},
+  {id:'p250_bullfrog',w:'P250',n:'Bullfrog',p:180,r:'restricted'},
+  {id:'ump45_urban',w:'UMP-45',n:'Urban Sovereign',p:46,r:'restricted'},
+  {id:'ump45_kofactory',w:'UMP-45',n:'K.O. Factory',p:850,r:'classified'},
+  {id:'ump45_wildchild',w:'UMP-45',n:'Wild Child',p:54,r:'restricted'},
+  {id:'negev_dropme',w:'Negev',n:'Drop Me',p:5,r:'mil-spec'},
+  {id:'negev_mjolnir',w:'Negev',n:'Mjolnir',p:28500,r:'restricted'},
+  {id:'m249_nebula',w:'M249',n:'Nebula Crusader',p:245,r:'restricted'},
+  {id:'awp_acheron',w:'AWP',n:'Acheron',p:59,r:'mil-spec'},
+  {id:'ssg_memorial',w:'SSG 08',n:'Memorial',p:65,r:'mil-spec'},
+  {id:'ssg_acidfade',w:'SSG 08',n:'Acid Fade',p:586,r:'restricted'},
+  {id:'ssg_dragonfire',w:'SSG 08',n:'Dragonfire',p:8500,r:'covert'},
+  {id:'mag7_resupply',w:'MAG-7',n:'Resupply',p:55,r:'mil-spec'},
+  {id:'mag7_magnitude',w:'MAG-7',n:'MAGnitude',p:48,r:'mil-spec'},
+  {id:'nova_risingsun',w:'Nova',n:'Rising Sun',p:320,r:'restricted'},
+  {id:'xm_mockingbird',w:'XM1014',n:'Mockingbird',p:52,r:'mil-spec'},
+  {id:'xm_entombed',w:'XM1014',n:'Entombed',p:260,r:'classified'},
+  {id:'zeus_tosai',w:'Zeus x27',n:'Tosai',p:290,r:'restricted'},
+  {id:'p90_wavebreaker',w:'P90',n:'Wave Breaker',p:820,r:'restricted'},
+  {id:'p90_randyrush',w:'P90',n:'Randy Rush',p:175,r:'restricted'},
+  {id:'scar20_caged',w:'SCAR-20',n:'Caged',p:68,r:'mil-spec'},
+  {id:'aug_trigger',w:'AUG',n:'Trigger Discipline',p:155,r:'mil-spec'},
+  {id:'mp5_focus',w:'MP5-SD',n:'Focus',p:95,r:'mil-spec'},
+  {id:'awp_duality2',w:'AWP',n:'Duality',p:1420,r:'covert'}
+];
+
+/* ============================================================
+   КЕЙСЫ CS2 (цены в рублях)
+   ============================================================ */
+const CASES=[
+  {id:'case_kilowatt',name:'Kilowatt Case',price:11,emoji:'⚡',desc:'Кейс с Kukri Knife и скинами Kilowatt Collection',
+   contents:[
+     {n:'AK-47 | Inheritance',r:'covert',p:2270},{n:'AWP | Chrome Cannon',r:'covert',p:7800},
+     {n:'USP-S | Jawbreaker',r:'classified',p:2065},{n:'M4A1-S | Black Lotus',r:'classified',p:240},
+     {n:'Glock-18 | Block-18',r:'restricted',p:150},{n:'Five-SeveN | Hybrid',r:'restricted',p:85},
+     {n:'MP7 | Just Smile',r:'restricted',p:65},{n:'Sawed-Off | Analog Input',r:'restricted',p:55},
+     {n:'Nova | Dark Sigil',r:'restricted',p:48},{n:'P2000 | Wicked Sick',r:'restricted',p:42},
+     {n:'MP5-SD | Liquidation',r:'mil-spec',p:35},{n:'Tec-9 | Slag',r:'mil-spec',p:28},
+     {n:'Glock-18 | Winterized',r:'mil-spec',p:22},{n:'M4A4 | Poly Mag',r:'mil-spec',p:18},
+     {n:'MP9 | Featherweight',r:'mil-spec',p:15},{n:'R8 Revolver | Banana Cannon',r:'mil-spec',p:12},
+     {n:'XM1014 | Irezumi',r:'mil-spec',p:10},
+     {n:'★ Kukri Knife | Fade',r:'extraordinary',p:42730},{n:'★ Kukri Knife | Case Hardened',r:'extraordinary',p:38560}
+   ]},
+  {id:'case_fever',name:'Fever Case',price:45,emoji:'🤒',desc:'Свежий кейс 2025 года с AWP Printstream',
+   contents:[
+     {n:'AWP | Printstream',r:'covert',p:3155},{n:'FAMAS | Bad Trip',r:'covert',p:380},
+     {n:'AK-47 | Searing Rage',r:'classified',p:1350},{n:'Glock-18 | Shinobu',r:'classified',p:1150},
+     {n:'UMP-45 | K.O. Factory',r:'classified',p:850},{n:'Desert Eagle | Serpent Strike',r:'restricted',p:2100},
+     {n:'Galil AR | Control',r:'restricted',p:420},{n:'Nova | Rising Sun',r:'restricted',p:320},
+     {n:'P90 | Wave Breaker',r:'restricted',p:820},{n:'Zeus x27 | Tosai',r:'restricted',p:290},
+     {n:'M4A4 | Choppa',r:'mil-spec',p:180},{n:'MAG-7 | Resupply',r:'mil-spec',p:55},
+     {n:'MP9 | Nexus',r:'mil-spec',p:75},{n:'P2000 | Sure Grip',r:'mil-spec',p:70},
+     {n:'SSG 08 | Memorial',r:'mil-spec',p:65},{n:'USP-S | PC-GRN',r:'mil-spec',p:95},
+     {n:'XM1014 | Mockingbird',r:'mil-spec',p:52}
+   ]},
+  {id:'case_revolution',name:'Revolution Case',price:16,emoji:'✊',desc:'Кейс Revolution Collection с M4A4 Temukau',
+   contents:[
+     {n:'M4A4 | Temukau',r:'covert',p:1835},{n:'AK-47 | Head Shot',r:'covert',p:1700},
+     {n:'AWP | Duality',r:'covert',p:1420},{n:'M4A1-S | Emphorosaur-S',r:'classified',p:230},
+     {n:'P2000 | Wicked Sick',r:'classified',p:42},{n:'UMP-45 | Wild Child',r:'restricted',p:54},
+     {n:'Glock-18 | Umbral Rabbit',r:'restricted',p:680},{n:'MAC-10 | Umbral Rabbit',r:'restricted',p:680},
+     {n:'MP5-SD | Liquidation',r:'mil-spec',p:35},{n:'Tec-9 | Slag',r:'mil-spec',p:28},
+     {n:'SG 553 | Cyrex',r:'mil-spec',p:25},{n:'P250 | Visions',r:'mil-spec',p:20},
+     {n:'Five-SeveN | Angry Mob',r:'mil-spec',p:18},{n:'MAG-7 | Insomnia',r:'mil-spec',p:15},
+     {n:'Negev | Lionfish',r:'mil-spec',p:12},{n:'G3SG1 | Scavenger',r:'mil-spec',p:10},
+     {n:'MP9 | Featherweight',r:'mil-spec',p:15},
+     {n:'★ Hydra Gloves | Rattler',r:'extraordinary',p:3270},{n:'★ Hydra Gloves | Emerald',r:'extraordinary',p:18600}
+   ]},
+  {id:'case_recoil',name:'Recoil Case',price:22,emoji:'💥',desc:'Кейс с USP-S Printstream и Glock-18 Umbral Rabbit',
+   contents:[
+     {n:'USP-S | Printstream',r:'covert',p:2535},{n:'AK-47 | Ice Coaled',r:'covert',p:260},
+     {n:'AWP | Chromatic Aberration',r:'covert',p:2115},{n:'M4A1-S | Night Terror',r:'classified',p:220},
+     {n:'Glock-18 | Umbral Rabbit',r:'classified',p:680},{n:'Galil AR | Destroyer',r:'mil-spec',p:30},
+     {n:'MAC-10 | Monkeyflage',r:'mil-spec',p:25},{n:'MP5-SD | Autumn Twilly',r:'mil-spec',p:20},
+     {n:'P250 | Visions',r:'mil-spec',p:20},{n:'SG 553 | Dragon Tech',r:'mil-spec',p:18},
+     {n:'Dual Berettas | Melondrama',r:'restricted',p:120},{n:'FAMAS | Mecha Industries',r:'restricted',p:1194},
+     {n:'G3SG1 | Dream Glade',r:'restricted',p:95},{n:'MAG-7 | Insomnia',r:'restricted',p:15},
+     {n:'Negev | Drop Me',r:'restricted',p:5},{n:'R8 Revolver | Crazy 8',r:'restricted',p:180},
+     {n:'Sawed-Off | Kiss♥Love',r:'restricted',p:110},
+     {n:'★ Driver Gloves | Snow Leopard',r:'extraordinary',p:23480},{n:'★ Sport Gloves | Nocts',r:'extraordinary',p:36880}
+   ]},
+  {id:'case_dreams',name:'Dreams & Nightmares',price:87,emoji:'🌙',desc:'Кейс Dreams & Nightmares с AK-47 Nightwish',
+   contents:[
+     {n:'AK-47 | Nightwish',r:'covert',p:5200},{n:'MP9 | Starlight Protector',r:'covert',p:1850},
+     {n:'Dual Berettas | Melondrama',r:'classified',p:120},{n:'FAMAS | Rapid Eye Movement',r:'classified',p:380},
+     {n:'G3SG1 | Dream Glade',r:'restricted',p:95},{n:'M4A1-S | Night Terror',r:'restricted',p:220},
+     {n:'MAC-10 | Ensnared',r:'restricted',p:75},{n:'MP5-SD | Necro Jr.',r:'restricted',p:65},
+     {n:'P2000 | Lifted Spirits',r:'restricted',p:55},{n:'Sawed-Off | Spirit Board',r:'restricted',p:48},
+     {n:'SCAR-20 | Poultrygeist',r:'mil-spec',p:35},{n:'XM1014 | Zombie Offensive',r:'mil-spec',p:28},
+     {n:'Five-SeveN | Scumbria',r:'mil-spec',p:22},{n:'Glock-18 | Franklin',r:'mil-spec',p:18},
+     {n:'MAG-7 | Foresight',r:'mil-spec',p:15},{n:'PP-Bizon | Space Cat',r:'mil-spec',p:12},
+     {n:'SG 553 | Dragon Tech',r:'mil-spec',p:18},
+     {n:'★ Butterfly Knife | Lore',r:'extraordinary',p:145000},{n:'★ Butterfly Knife | Bright Water',r:'extraordinary',p:133000}
+   ]},
+  {id:'case_fracture',name:'Fracture Case',price:37,emoji:'🔷',desc:'Кейс Fracture с Desert Eagle Printstream',
+   contents:[
+     {n:'Desert Eagle | Printstream',r:'covert',p:2485},{n:'AK-47 | Legion of Anubis',r:'covert',p:2150},
+     {n:'M4A4 | Tooth Fairy',r:'classified',p:260},{n:'Glock-18 | Vogue',r:'classified',p:1150},
+     {n:'XM1014 | Entombed',r:'classified',p:260},{n:'Galil AR | Connexion',r:'restricted',p:120},
+     {n:'MAC-10 | Allure',r:'restricted',p:85},{n:'MAG-7 | Monster Call',r:'restricted',p:65},
+     {n:'MP5-SD | Kitbash',r:'restricted',p:55},{n:'P250 | Cassette',r:'restricted',p:48},
+     {n:'P90 | Freight',r:'restricted',p:42},{n:'SG 553 | Ol\' Rusty',r:'restricted',p:38},
+     {n:'SSG 08 | Mainframe 001',r:'mil-spec',p:35},{n:'Tec-9 | Brother',r:'mil-spec',p:28},
+     {n:'UMP-45 | K.O. Factory',r:'mil-spec',p:22},{n:'Negev | Ultralight',r:'mil-spec',p:18},
+     {n:'Galil AR | Destroyer',r:'mil-spec',p:30},
+     {n:'★ Skeleton Knife | Fade',r:'extraordinary',p:170280},{n:'★ Skeleton Knife | Crimson Web',r:'extraordinary',p:129000}
+   ]},
+  {id:'case_gallery',name:'Gallery Case',price:55,emoji:'🖼️',desc:'Кейс Gallery с M4A1-S Vaporwave',
+   contents:[
+     {n:'M4A1-S | Vaporwave',r:'covert',p:103200},{n:'Glock-18 | Gold Toof',r:'covert',p:192400},
+     {n:'AK-47 | The Outsiders',r:'covert',p:1850},{n:'UMP-45 | Neo-Noir',r:'classified',p:680},
+     {n:'P250 | Epicenter',r:'classified',p:220},{n:'P90 | Randy Rush',r:'restricted',p:175},
+     {n:'MP9 | Starlight Protector',r:'restricted',p:1850},{n:'MAC-10 | Saibā',r:'restricted',p:95},
+     {n:'MAG-7 | Resupply',r:'mil-spec',p:55},{n:'Nova | Rising Sun',r:'mil-spec',p:320},
+     {n:'P2000 | Sure Grip',r:'mil-spec',p:70},{n:'SSG 08 | Memorial',r:'mil-spec',p:65},
+     {n:'USP-S | PC-GRN',r:'mil-spec',p:95},{n:'XM1014 | Mockingbird',r:'mil-spec',p:52},
+     {n:'Five-SeveN | Hybrid',r:'mil-spec',p:85},{n:'MP7 | Just Smile',r:'mil-spec',p:65},
+     {n:'Glock-18 | Winterized',r:'mil-spec',p:22},
+     {n:'★ Kukri Knife | Fade',r:'extraordinary',p:42730},{n:'★ Kukri Knife | Case Hardened',r:'extraordinary',p:38560}
+   ]}
+];
+
+const LS_KEY='apex_team_state_v11';
+const DAYS=['Понедельник','Вторник','Среда','Четверг','Пятница','Суббота','Воскресенье'];
+
+/* ============ КАРТЫ CS2 ============ */
+const CS2_MAPS=[
+  {id:'de_ancient',name:'Ancient',mode:'Active Duty',desc:'Древние руины в джунглях.'},
+  {id:'de_anubis',name:'Anubis',mode:'Active Duty',desc:'Древнеегипетский храм.'},
+  {id:'de_dust2',name:'Dust 2',mode:'Active Duty',desc:'Самая культовая карта в истории CS.'},
+  {id:'de_inferno',name:'Inferno',mode:'Active Duty',desc:'Итальянская деревня с бананом.'},
+  {id:'de_mirage',name:'Mirage',mode:'Active Duty',desc:'Долгожитель Active Duty.'},
+  {id:'de_nuke',name:'Nuke',mode:'Active Duty',desc:'АЭС с двухуровневыми бомб-сайтами.'},
+  {id:'de_overpass',name:'Overpass',mode:'Active Duty',desc:'Немецкий канал.'},
+  {id:'de_cache',name:'Cache',mode:'Active Duty',desc:'Возвращение фаворита комьюнити.'},
+  {id:'de_vertigo',name:'Vertigo',mode:'Competitive',desc:'Стройка небоскрёба.'},
+  {id:'de_train',name:'Train',mode:'Competitive',desc:'Вокзал с вагонами.'}
+];
+
+function radarUrl(mapId){return 'https://raw.githubusercontent.com/MurkyYT/cs2-map-icons/main/images/radars/'+mapId+'_radar_psd.png'}
+
+/* ============================================================
+   СОСТОЯНИЕ
+   ============================================================ */
+let state,currentUser=null,currentTab='team';
+let currentWalletTab='training';
+let currentChatUser=null;
+let currentTrainingTab='record';
+let ballHits=0,ballEarn=0;
+let selectedMult=2,wheelAngle=0;
+let reactState='idle',reactTimeout=null,reactStartTime=0;
+let reactionHistory=[];
+let currentQuest='balls';
+let currentMapTab='all';
+
+function uid(){return Math.random().toString(36).slice(2,9)}
+
+function loadState(){
+  try{const r=localStorage.getItem(LS_KEY);if(r){const p=JSON.parse(r);if(p&&p.users)return p}}catch(e){}
+  const f={
+    users:{},tournaments:[],
+    trainings:[{id:uid(),title:'Основная тренировка',day:'Пятница',time:'19:00',votes:{}},{id:uid(),title:'Основная тренировка',day:'Суббота',time:'18:00',votes:{}}],
+    session:null,
+    teamStatus:{},walletTraining:{},walletTournament:{},chat:{},groupChat:[],
+    plan:'',stats:{},tournamentResults:[],guides:{}
+  };
+  DEFAULT_ACCOUNTS.forEach(a=>{
+    f.users[a.login]={password:a.password,teamName:a.teamName,role:a.role,avatar:'',theme:'dark',balance:0,inventory:[],walletLog:[]};
+    f.teamStatus[a.login]='none';
+    f.walletTraining[a.login]=0;
+    f.walletTournament[a.login]=0;
+    f.chat[a.login]=[];
+    f.stats[a.login]={kd:'0.00',wins:0,losses:0,hs:0,faceit:0,premier:0};
+  });
+  return f;
+}
+function save(){try{localStorage.setItem(LS_KEY,JSON.stringify(state))}catch(e){}}
+
+/* ============ УТИЛИТЫ ============ */
+function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function nameOf(l){const u=state.users[l];return u?u.teamName:l}
+function isLeader(){return currentUser&&state.users[currentUser]&&state.users[currentUser].role==='leader'}
+function defaultAvatar(n){const l=(n||'?').trim().charAt(0).toUpperCase()||'?';const s='<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128"><rect width="128" height="128" rx="64" fill="#123a7a"/><text x="64" y="84" font-size="62" font-family="Arial" font-weight="bold" fill="#4da6ff" text-anchor="middle">'+l+'</text></svg>';return 'data:image/svg+xml;utf8,'+encodeURIComponent(s)}
+function fmtMoney(n){return Number(n||0).toLocaleString('ru-RU')+' ₽'}
+function fmtTime(ts){const d=new Date(ts);return d.toLocaleString('ru-RU',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'})}
+function applyTheme(t){document.documentElement.setAttribute('data-theme',t==='light'?'light':'dark')}
+function me(){return state.users[currentUser]}
+function shopById(id){return SHOP_ITEMS.find(x=>x.id===id)}
+function caseById(id){return CASES.find(x=>x.id===id)}
+function updateTopBalance(){const u=me();if(!u)return;const el=document.getElementById('topBalance');if(el)el.textContent='💰 '+fmtMoney(u.balance)}
+function addMoney(amount){const u=me();u.balance=Number(u.balance||0)+amount;save();updateTopBalance()}
+
+/* ============ МОДАЛКА ============ */
+const backdrop=document.getElementById('modalBackdrop');
+const modalBox=document.getElementById('modalBox');
+function openModal(h){modalBox.innerHTML=h;backdrop.hidden=false}
+function closeModal(){backdrop.hidden=true;modalBox.innerHTML=''}
+backdrop.addEventListener('click',e=>{if(e.target===backdrop)closeModal()});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!backdrop.hidden)closeModal()});
+
+/* ============ ВХОД ============ */
+document.getElementById('loginBtn').addEventListener('click',doLogin);
+document.getElementById('passInput').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin()});
+document.getElementById('loginInput').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin()});
+function doLogin(){
+  const login=document.getElementById('loginInput').value.trim().toLowerCase();
+  const pass=document.getElementById('passInput').value;
+  const msg=document.getElementById('loginMsg');
+  if(!login||!pass){msg.textContent='⚠ Заполните логин и пароль';return}
+  const user=state.users[login];
+  if(!user){msg.textContent='⚠ Игрок не найден';return}
+  if(user.password!==pass){msg.textContent='⚠ Неверный пароль';return}
+  msg.textContent='';document.getElementById('passInput').value='';
+  state.session=login;save();currentUser=login;currentTab='team';
+  if(location.hash)history.replaceState(null,'',location.pathname+location.search);
+  render();
+}
+document.getElementById('logoutBtn').addEventListener('click',()=>{
+  state.session=null;save();currentUser=null;closeModal();
+  if(location.hash)history.replaceState(null,'',location.pathname+location.search);
+  render();
+});
+
+/* ============ ГЛАВНЫЙ РЕНДЕР ============ */
+function render(){
+  const ok=state.session&&state.users[state.session];
+  if(ok){
+    currentUser=state.session;
+    document.getElementById('loginScreen').hidden=true;
+    document.getElementById('app').hidden=false;
+    const u=state.users[currentUser];
+    applyTheme(u.theme||'dark');
+    document.getElementById('userName').textContent=u.teamName;
+    document.getElementById('userAvatar').src=u.avatar||defaultAvatar(u.teamName);
+    document.getElementById('crownSlot').innerHTML=(u.role==='leader')?'<span class="crown" title="Лидер">👑</span>':'';
+    updateTopBalance();
+    document.querySelectorAll('.leader-only').forEach(el=>{el.hidden=!isLeader()});
+    switchTab(currentTab);
+  }else{
+    currentUser=null;
+    document.getElementById('loginScreen').hidden=false;
+    document.getElementById('app').hidden=true;
+    applyTheme('dark');
+  }
+}
+
+/* ============ ТАБЫ ============ */
+document.querySelectorAll('.tab').forEach(b=>{b.addEventListener('click',()=>switchTab(b.dataset.tab))});
+function switchTab(n){
+  currentTab=n;
+  document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('active',b.dataset.tab===n));
+  document.querySelectorAll('main .panel').forEach(p=>{p.hidden=(p.id!=='panel-'+n)});
+  if(n==='team')renderTeam();
+  if(n==='chat')renderChat();
+  if(n==='wallet')renderWallet();
+  if(n==='trainings')renderTrainings();
+  if(n==='cases')renderCases();
+  if(n==='shop')renderShop();
+  if(n==='upgrade')renderUpgrade();
+  if(n==='inventory')renderInventory();
+  if(n==='stats')renderStats();
+  if(n==='tournaments')renderTournaments();
+  if(n==='guides')renderGuides();
+  if(n==='quests')renderQuests();
+  if(n==='maps')renderMaps();
+  if(n==='links')renderLinks();
+  if(n==='settings')renderSettings();
+}
+
+/* ============================================================
+   КОМАНДА
+   ============================================================ */
+function renderTeam(){
+  const grid=document.getElementById('teamGrid');
+  grid.innerHTML=Object.keys(state.users).map(l=>{
+    const u=state.users[l];
+    const st=state.teamStatus[l]||'none';
+    const registered=u.password&&u.password.length>0;
+    const isLeaderRow=u.role==='leader';
+    const statusLabel=st==='main'?'Основной':(st==='bench'?'Запасной':'Не в составе');
+    const statusClass=st==='main'?'main':(st==='bench'?'bench':'noreg');
+    let actions='';
+    if(isLeader()&&!isLeaderRow){
+      actions='<div class="actions">'
+        +'<button class="btn '+(st==='main'?'active':'')+'" data-team-status="'+l+'" data-val="main">✅ Основа</button>'
+        +'<button class="btn '+(st==='bench'?'active':'')+'" data-team-status="'+l+'" data-val="bench">🪑 Запас</button>'
+        +'<button class="btn '+(st==='none'?'active':'')+'" data-team-status="'+l+'" data-val="none">❌ Не в составе</button>'
+        +'</div>';
+    }
+    return '<div class="team-player"><img src="'+(u.avatar||defaultAvatar(u.teamName))+'" alt="">'
+      +'<div class="info"><b>'+esc(u.teamName)+'</b><span class="login">'+esc(l)+'</span>'
+      +'<div class="badges">'+(registered?'<span class="badge reg">✅ Зарегистрирован</span>':'<span class="badge noreg">❌ Не зарегистрирован</span>')
+      +(isLeaderRow?'<span class="badge main">👑 Лидер</span>':'')
+      +'<span class="badge '+statusClass+'">'+statusLabel+'</span></div></div>'+actions+'</div>';
+  }).join('');
+  grid.querySelectorAll('[data-team-status]').forEach(b=>{
+    b.addEventListener('click',()=>{if(!isLeader())return;state.teamStatus[b.dataset.teamStatus]=b.dataset.val;save();renderTeam()});
+  });
+}
+
+/* ============================================================
+   ЧАТ
+   ============================================================ */
+function renderChat(){
+  const sidebar=document.getElementById('chatSidebar');
+  let html='<h4>Личные сообщения</h4>';
+  Object.keys(state.users).filter(l=>l!==currentUser).forEach(l=>{
+    const u=state.users[l];
+    const isActive=currentChatUser===l;
+    const last=state.chat[l]&&state.chat[l].length?state.chat[l][state.chat[l].length-1]:null;
+    html+='<div class="chat-user'+(isActive?' active':'')+'" data-chat-user="'+l+'"><img src="'+(u.avatar||defaultAvatar(u.teamName))+'" alt="">'
+      +'<div><b>'+esc(u.teamName)+'</b>'+(last?'<div style="font-size:11px;color:var(--text-dim);margin-top:2px">'+esc(last.text.slice(0,20))+'…</div>':'')+'</div>'
+      +'<span class="status"></span></div>';
+  });
+  html+='<h4 style="margin-top:20px">Общий чат</h4><div class="chat-user" data-chat-user="__group__"><span style="font-size:20px">👥</span><b>Группа</b></div>';
+  sidebar.innerHTML=html;
+  sidebar.querySelectorAll('[data-chat-user]').forEach(el=>{
+    el.addEventListener('click',()=>{currentChatUser=el.dataset.chatUser;renderChat()});
+  });
+  const header=document.getElementById('chatHeader'),msgs=document.getElementById('chatMessages'),inputWrap=document.getElementById('chatInputWrap');
+  if(!currentChatUser){header.textContent='Выбери игрока для переписки';msgs.innerHTML='<div class="empty" style="margin:auto">Выбери чат слева</div>';inputWrap.hidden=true;return}
+  if(currentChatUser==='__group__'){
+    header.innerHTML='<span style="font-size:22px">👥</span> Общий чат команды';inputWrap.hidden=false;
+    const list=state.groupChat||[];
+    msgs.innerHTML=list.length?list.map(m=>{
+      const mine=m.from===currentUser;
+      return '<div class="chat-msg '+(mine?'mine':'theirs')+'">'+esc(m.text)+'<span class="time">'+fmtTime(m.ts)+(mine?'':' · '+esc(nameOf(m.from)))+'</span></div>';
+    }).join(''):'<div class="empty" style="margin:auto">Сообщений пока нет</div>';
+  }else{
+    const u=state.users[currentChatUser];
+    header.innerHTML='<img src="'+(u.avatar||defaultAvatar(u.teamName))+'" alt=""> '+esc(u.teamName);inputWrap.hidden=false;
+    const list=state.chat[currentChatUser]||[];
+    msgs.innerHTML=list.length?list.map(m=>{
+      const mine=m.from===currentUser;
+      return '<div class="chat-msg '+(mine?'mine':'theirs')+'">'+esc(m.text)+'<span class="time">'+fmtTime(m.ts)+'</span></div>';
+    }).join(''):'<div class="empty" style="margin:auto">Сообщений пока нет</div>';
+  }
+  msgs.scrollTop=msgs.scrollHeight;
+}
+document.getElementById('chatSend').addEventListener('click',sendChat);
+document.getElementById('chatInput').addEventListener('keydown',e=>{if(e.key==='Enter')sendChat()});
+function sendChat(){
+  const input=document.getElementById('chatInput'),text=input.value.trim();
+  if(!text||!currentChatUser)return;input.value='';
+  if(currentChatUser==='__group__'){if(!state.groupChat)state.groupChat=[];state.groupChat.push({from:currentUser,text,ts:Date.now()})}
+  else{if(!state.chat[currentChatUser])state.chat[currentChatUser]=[];state.chat[currentChatUser].push({from:currentUser,text,ts:Date.now()})}
+  save();renderChat();
+}
+
+/* ============================================================
+   КОПИЛКИ
+   ============================================================ */
+document.querySelectorAll('.wallet-tab').forEach(b=>{
+  b.addEventListener('click',()=>{
+    currentWalletTab=b.dataset.wallet;
+    document.querySelectorAll('.wallet-tab').forEach(x=>x.classList.toggle('active',x.dataset.wallet===currentWalletTab));
+    renderWallet();
+  });
+});
+function renderWallet(){
+  const u=me();const isTraining=currentWalletTab==='training';
+  const wallet=isTraining?state.walletTraining:state.walletTournament;
+  const totalKey=isTraining?'totalTraining':'totalTournament';
+  const total=Object.values(wallet).reduce((s,v)=>s+Number(v||0),0);
+  document.getElementById(totalKey).textContent=fmtMoney(total);
+  document.getElementById('myWalletBalance').textContent=fmtMoney(u.balance);
+  document.getElementById('leaderWalletForm').hidden=!isLeader();
+  document.getElementById('walletFormTitle').textContent=isTraining?'👑 Пополнить тренировочную копилку':'👑 Пополнить турнирную копилку';
+  document.getElementById('walletList').innerHTML=Object.keys(state.users).map(l=>{
+    const p=state.users[l];const sum=wallet[l]||0;
+    return '<div class="player-wallet"><img src="'+(p.avatar||defaultAvatar(p.teamName))+'" alt="">'
+      +'<div class="info"><b>'+esc(p.teamName)+'</b><code>'+esc(l)+'</code></div>'
+      +'<span class="amount">'+fmtMoney(sum)+'</span></div>';
+  }).join('');
+}
+document.getElementById('walletAddBtn').addEventListener('click',()=>{
+  if(!isLeader())return;
+  const target=document.getElementById('walletTarget').value.trim().toLowerCase();
+  const amount=parseInt(document.getElementById('walletAmount').value,10);
+  const msg=document.getElementById('walletMsg');
+  const isTraining=currentWalletTab==='training';
+  const wallet=isTraining?state.walletTraining:state.walletTournament;
+  if(!target){msg.textContent='⚠ Укажи логин игрока.';return}
+  if(!state.users[target]){msg.textContent='⚠ Игрок не найден.';return}
+  if(!amount||amount<=0){msg.textContent='⚠ Сумма должна быть больше нуля.';return}
+  wallet[target]=Number(wallet[target]||0)+amount;
+  state.users[target].balance=Number(state.users[target].balance||0)+amount;
+  save();renderWallet();updateTopBalance();
+  document.getElementById('walletTarget').value='';document.getElementById('walletAmount').value='';
+  msg.textContent='';msg.className='msg success';msg.textContent='✓ '+fmtMoney(amount)+' зачислено игроку '+state.users[target].teamName;
+  setTimeout(()=>{msg.textContent='';msg.className='msg error'},2500);
+});
+document.getElementById('walletTakeBtn').addEventListener('click',()=>{
+  if(!isLeader())return;
+  const target=document.getElementById('walletTarget').value.trim().toLowerCase();
+  const msg=document.getElementById('walletMsg');
+  const isTraining=currentWalletTab==='training';
+  const wallet=isTraining?state.walletTraining:state.walletTournament;
+  if(!target){msg.textContent='⚠ Укажи логин игрока.';return}
+  if(!state.users[target]){msg.textContent='⚠ Игрок не найден.';return}
+  const take=50;
+  wallet[target]=Math.max(0,Number(wallet[target]||0)-take);
+  state.users[target].balance=Math.max(0,Number(state.users[target].balance||0)-take);
+  save();renderWallet();updateTopBalance();
+  msg.textContent='';msg.className='msg success';msg.textContent='✓ Снято 50 ₽ у '+state.users[target].teamName+' (штраф)';
+  setTimeout(()=>{msg.textContent='';msg.className='msg error'},2500);
+});
+
+/* ============================================================
+   ТРЕНИРОВКИ
+   ============================================================ */
+document.querySelectorAll('.training-tab').forEach(b=>{
+  b.addEventListener('click',()=>{
+    currentTrainingTab=b.dataset.training;
+    document.querySelectorAll('.training-tab').forEach(x=>x.classList.toggle('active',x.dataset.training===currentTrainingTab));
+    document.getElementById('trainingRecordView').hidden=currentTrainingTab!=='record';
+    document.getElementById('trainingPlanView').hidden=currentTrainingTab!=='plan';
+    if(currentTrainingTab==='plan')renderPlan();
+  });
+});
+function renderTrainings(){
+  if(currentTrainingTab==='plan'){renderPlan();return}
+  document.getElementById('trainingList').innerHTML=state.trainings.map(t=>{
+    const participants=t.participants||{};
+    const playersHtml=Object.keys(state.users).map(l=>{
+      const u=state.users[l];
+      const checked=participants[l]&&participants[l].checked;
+      const pay=participants[l]?participants[l].pay:0;
+      return '<div class="training-player">'
+        +'<input type="checkbox" '+(checked?'checked':'')+' data-tr-player="'+t.id+'" data-tr-login="'+l+'">'
+        +'<span>'+esc(u.teamName)+'</span>'
+        +(isLeader()?'<input class="pay-input" type="number" min="0" step="50" placeholder="₽" value="'+(pay||'')+'" data-tr-pay="'+t.id+'" data-tr-login="'+l+'">':'<span class="muted">'+(checked?fmtMoney(pay):'—')+'</span>')
+        +'</div>';
+    }).join('');
+    return '<div class="training-card"><h4>🎯 '+esc(t.title||'Тренировка')+' · '+esc(t.day)+' '+esc(t.time)+'</h4>'
+      +'<div class="training-players">'+playersHtml+'</div>'
+      +(isLeader()?'<div style="margin-top:10px"><button class="btn primary small" data-tr-save="'+t.id+'">💾 Сохранить запись</button>'
+        +'<button class="btn danger small" data-tr-del="'+t.id+'" style="margin-left:8px">✕ Удалить</button></div>':'')
+      +'</div>';
+  }).join('');
+  document.querySelectorAll('[data-tr-save]').forEach(b=>{
+    b.addEventListener('click',()=>{
+      const t=state.trainings.find(x=>x.id===b.dataset.trSave);if(!t)return;
+      t.participants=t.participants||{};
+      Object.keys(state.users).forEach(l=>{
+        const cb=document.querySelector('[data-tr-player="'+t.id+'"][data-tr-login="'+l+'"]');
+        const pi=document.querySelector('[data-tr-pay="'+t.id+'"][data-tr-login="'+l+'"]');
+        if(!t.participants[l])t.participants[l]={checked:false,pay:0};
+        t.participants[l].checked=cb?cb.checked:false;
+        t.participants[l].pay=pi?parseInt(pi.value,10)||0:0;
+      });
+      save();renderTrainings();
+    });
+  });
+  document.querySelectorAll('[data-tr-del]').forEach(b=>{
+    b.addEventListener('click',()=>{if(!confirm('Удалить тренировку?'))return;state.trainings=state.trainings.filter(x=>x.id!==b.dataset.trDel);save();renderTrainings()});
+  });
+}
+document.getElementById('addTraining').addEventListener('click',()=>{
+  openModal('<h3>Новая тренировка</h3>'
+    +'<label>Название<input id="trTitle" placeholder="Основная тренировка"></label>'
+    +'<label>День недели<select id="trDay">'+DAYS.map(d=>'<option value="'+d+'">'+d+'</option>').join('')+'</select></label>'
+    +'<label>Время<input id="trTime" type="time" value="19:00"></label>'
+    +'<div class="modal-actions"><button class="btn" id="trCancel">Отмена</button><button class="btn primary" id="trCreate">Создать</button></div>');
+  document.getElementById('trCancel').onclick=closeModal;
+  document.getElementById('trCreate').onclick=()=>{
+    const title=document.getElementById('trTitle').value.trim()||'Тренировка';
+    const day=document.getElementById('trDay').value;
+    const time=document.getElementById('trTime').value;
+    state.trainings.push({id:uid(),title,day,time,votes:{},participants:{}});
+    save();closeModal();renderTrainings();
+  };
+});
+function renderPlan(){
+  const ta=document.getElementById('planText');
+  if(ta){ta.value=state.plan||'';ta.disabled=!isLeader()}
+}
+document.getElementById('savePlan').addEventListener('click',()=>{
+  if(!isLeader())return;
+  state.plan=document.getElementById('planText').value;save();
+  const m=document.getElementById('planMsg');m.textContent='✓ План сохранён';setTimeout(()=>{m.textContent=''},2000);
+});
+document.getElementById('editPlan').addEventListener('click',()=>{
+  if(!isLeader())return;
+  const ta=document.getElementById('planText');ta.disabled=!ta.disabled;ta.focus();
+});
+
+/* ============================================================
+   КЕЙСЫ
+   ============================================================ */
+function renderCases(){
+  document.getElementById('caseGrid').innerHTML=CASES.map(c=>{
+    const contents=c.contents.slice(0,6).map(x=>'<div class="case-content-item"><span>'+esc(x.n)+'</span><span style="color:var(--gold)">'+fmtMoney(x.p)+'</span></div>').join('');
+    return '<div class="case-card"><div class="case-thumb">'+c.emoji+'</div>'
+      +'<div class="case-body"><div class="case-name">'+esc(c.name)+'</div>'
+      +'<div class="case-desc">'+esc(c.desc)+'</div>'
+      +'<div class="case-price">'+fmtMoney(c.price)+'</div>'
+      +'<button class="btn primary" data-buy-case="'+c.id+'">🎁 Купить и открыть</button>'
+      +'<div class="case-contents">'+contents+'<div class="muted" style="margin-top:6px;font-size:11px">…и ещё '+(c.contents.length-6)+' предметов</div></div>'
+      +'</div></div>';
+  }).join('');
+  document.querySelectorAll('[data-buy-case]').forEach(b=>{
+    b.addEventListener('click',()=>openCase(b.dataset.buyCase));
+  });
+}
+function openCase(caseId){
+  const c=caseById(caseId);if(!c)return;
+  const u=me();
+  if(Number(u.balance)<c.price){const m=document.getElementById('caseMsg');m.textContent='⚠ Недостаточно денег. Нужно '+fmtMoney(c.price)+'.';setTimeout(()=>{m.textContent=''},3000);return}
+  if(!confirm('Купить '+c.name+' за '+fmtMoney(c.price)+' и открыть?'))return;
+  u.balance-=c.price;
+  // Выбор случайного предмета по шансам
+  const roll=Math.random()*100;
+  let picked;
+  if(roll<0.26){ // Нож/перчатки
+    const rare=c.contents.filter(x=>x.r==='extraordinary');
+    picked=rare.length?rare[Math.floor(Math.random()*rare.length)]:c.contents[0];
+  }else if(roll<0.90){ // Covert
+    const cov=c.contents.filter(x=>x.r==='covert');
+    picked=cov.length?cov[Math.floor(Math.random()*cov.length)]:c.contents[0];
+  }else if(roll<4.10){ // Classified
+    const cls=c.contents.filter(x=>x.r==='classified');
+    picked=cls.length?cls[Math.floor(Math.random()*cls.length)]:c.contents[0];
+  }else if(roll<20.08){ // Restricted
+    const res=c.contents.filter(x=>x.r==='restricted');
+    picked=res.length?res[Math.floor(Math.random()*res.length)]:c.contents[0];
+  }else{ // Mil-Spec
+    const ms=c.contents.filter(x=>x.r==='mil-spec');
+    picked=ms.length?ms[Math.floor(Math.random()*ms.length)]:c.contents[0];
+  }
+  if(!u.inventory)u.inventory=[];
+  u.inventory.push({itemId:'case_'+caseId+'_'+uid(),weapon:picked.n.split('|')[0].trim(),name:picked.n.split('|')[1]?picked.n.split('|')[1].trim():picked.n,price:picked.p,rarity:picked.r,boughtAt:Date.now()});
+  save();renderCases();updateTopBalance();
+  const m=document.getElementById('caseMsg');m.className='msg success';
+  m.textContent='🎉 Ты получил: '+picked.n+' ('+fmtMoney(picked.p)+')';
+  setTimeout(()=>{m.textContent='';m.className='msg error'},4000);
+}
+
+/* ============================================================
+   МАГАЗИН
+   ============================================================ */
+function renderShop(){
+  const u=me();
+  document.getElementById('shopGrid').innerHTML=SHOP_ITEMS.map(it=>{
+    const owned=u.inventory.some(x=>x.itemId===it.id);
+    return '<div class="shop-item'+(owned?' owned':'')+'">'
+      +'<div class="weapon">'+esc(it.w)+'</div><div class="name">'+esc(it.n)+'</div>'
+      +'<div class="rarity '+it.r+'">'+rarityLabel(it.r)+'</div>'
+      +'<div class="price">'+fmtMoney(it.p)+'</div>'
+      +(owned?'<div class="owned-tag">✓ Уже в инвентаре</div>':'<button class="btn primary" data-buy="'+it.id+'">Купить</button>')+'</div>';
+  }).join('');
+  document.querySelectorAll('[data-buy]').forEach(b=>{
+    b.addEventListener('click',()=>{
+      const it=shopById(b.dataset.buy);if(!it)return;
+      const u2=me();
+      if(Number(u2.balance)<it.p){const m=document.getElementById('shopMsg');m.textContent='⚠ Недостаточно денег. Нужно '+fmtMoney(it.p)+'.';setTimeout(()=>{m.textContent=''},3000);return}
+      if(!confirm('Купить '+it.w+' | '+it.n+' за '+fmtMoney(it.p)+'?'))return;
+      u2.balance-=it.p;
+      if(!u2.inventory)u2.inventory=[];
+      u2.inventory.push({itemId:it.id,weapon:it.w,name:it.n,price:it.p,rarity:it.r,boughtAt:Date.now()});
+      save();renderShop();updateTopBalance();
+      const m=document.getElementById('shopMsg');m.className='msg success';m.textContent='✓ Куплено: '+it.w+' | '+it.n;
+      setTimeout(()=>{m.textContent='';m.className='msg error'},2500);
+    });
+  });
+}
+function rarityLabel(r){return{classified:'Classified',covert:'Covert',contraband:'Contraband',restricted:'Restricted','mil-spec':'Mil-Spec',extraordinary:'Extraordinary'}[r]||r}
+
+/* ============================================================
+   ИНВЕНТАРЬ
+   ============================================================ */
+function renderInventory(){
+  const u=me(),grid=document.getElementById('invGrid');
+  if(!u.inventory||!u.inventory.length){grid.innerHTML='<div class="empty" style="grid-column:1/-1">🎒 Инвентарь пуст.<br>Купи скины в магазине или открой кейс.</div>';return}
+  grid.innerHTML=u.inventory.map((inv,i)=>{
+    const sell=Math.round(inv.price*0.7);
+    return '<div class="inv-item"><div class="weapon">'+esc(inv.weapon)+'</div><div class="name">'+esc(inv.name)+'</div>'
+      +'<div class="rarity '+inv.rarity+'" style="font-size:10px;margin-bottom:6px">'+rarityLabel(inv.rarity)+'</div>'
+      +'<div class="price">'+fmtMoney(inv.price)+'</div>'
+      +'<div class="sell-price">Продажа: <b>'+fmtMoney(sell)+'</b></div>'
+      +'<button class="btn danger" data-sell="'+i+'" style="margin-top:10px;font-size:12px;padding:8px">Продать</button></div>';
+  }).join('');
+  document.querySelectorAll('[data-sell]').forEach(b=>{
+    b.addEventListener('click',()=>{
+      const u2=me();const idx=parseInt(b.dataset.sell,10);const inv=u2.inventory[idx];if(!inv)return;
+      const sell=Math.round(inv.price*0.7);
+      if(!confirm('Продать '+inv.weapon+' | '+inv.name+' за '+fmtMoney(sell)+'?'))return;
+      u2.balance+=sell;u2.inventory.splice(idx,1);save();renderInventory();updateTopBalance();
+      const m=document.getElementById('invMsg');m.textContent='✓ Продано за '+fmtMoney(sell);setTimeout(()=>{m.textContent=''},2500);
+    });
+  });
+}
+
+/* ============================================================
+   АПГРЕЙД
+   ============================================================ */
+function renderUpgrade(){
+  const u=me();
+  const sourceSel=document.getElementById('upgradeSource');
+  if(!u.inventory||!u.inventory.length){sourceSel.innerHTML='<option value="">— Инвентарь пуст —</option>'}
+  else{sourceSel.innerHTML=u.inventory.map((inv,i)=>'<option value="'+i+'">'+esc(inv.weapon+' | '+inv.name)+' — '+fmtMoney(inv.price)+'</option>').join('')}
+  document.getElementById('upgradeTarget').innerHTML=SHOP_ITEMS.map(it=>'<option value="'+it.id+'">'+esc(it.w+' | '+it.n)+' — '+fmtMoney(it.p)+'</option>').join('');
+  renderMultBtns();updateChanceInfo();drawWheel();
+}
+function renderMultBtns(){
+  const wrap=document.getElementById('multBtns');
+  wrap.innerHTML=[1.5,2,4,8].map(m=>'<button class="mult-btn'+(m===selectedMult?' active':'')+'" data-mult="'+m+'">×'+m+'</button>').join('')
+    +'<button class="mult-btn'+(selectedMult===0?' active':'')+'" data-mult="0">Свой выбор</button>';
+  wrap.querySelectorAll('[data-mult]').forEach(b=>{
+    b.addEventListener('click',()=>{selectedMult=parseFloat(b.dataset.mult);if(selectedMult>0)autoPickTarget(selectedMult);renderMultBtns();updateChanceInfo()});
+  });
+}
+function autoPickTarget(mult){
+  const u=me();const srcIdx=document.getElementById('upgradeSource').value;
+  if(srcIdx===''||!u.inventory.length)return;
+  const src=u.inventory[parseInt(srcIdx,10)];if(!src)return;
+  const desired=src.price*mult;let best=null,bestDiff=Infinity;
+  SHOP_ITEMS.forEach(it=>{const d=Math.abs(it.p-desired);if(d<bestDiff){bestDiff=d;best=it}});
+  if(best)document.getElementById('upgradeTarget').value=best.id;
+}
+function updateChanceInfo(){
+  const u=me();const srcIdx=document.getElementById('upgradeSource').value;
+  const targetId=document.getElementById('upgradeTarget').value;const target=shopById(targetId);
+  const si=document.getElementById('sourceInfo'),ti=document.getElementById('targetChanceInfo');
+  const wl=document.getElementById('wheelChanceLabel'),mi=document.getElementById('multiplierInfo');
+  if(srcIdx===''||!u.inventory.length){si.innerHTML='Цена: <b>—</b>';ti.innerHTML='Шанс: <b>—</b>';wl.textContent='Шанс: —';mi.textContent='';drawWheel(0);return}
+  const src=u.inventory[parseInt(srcIdx,10)];if(!src){si.innerHTML='Цена: <b>—</b>';return}
+  si.innerHTML='Цена: <b>'+fmtMoney(src.price)+'</b>';
+  if(!target){ti.innerHTML='Шанс: <b>—</b>';wl.textContent='Шанс: —';drawWheel(0);return}
+  let chance=(src.price/target.p)*100;chance=Math.max(1,Math.min(90,chance));
+  ti.innerHTML='Шанс: <b>'+chance.toFixed(1)+'%</b>';wl.textContent='Шанс: '+chance.toFixed(1)+'%';
+  mi.innerHTML='Цель в <b>×'+(target.p/src.price).toFixed(2)+'</b> дороже';drawWheel(chance);
+}
+function drawWheel(chance){
+  const wheel=document.getElementById('wheel');if(!wheel)return;
+  const wa=chance/100*360;
+  wheel.style.background=wa>0?'conic-gradient(#00d68f 0deg '+wa+'deg, #1a2540 '+wa+'deg 360deg)':'conic-gradient(#1a2540 0deg 360deg)';
+}
+document.getElementById('upgradeSource').addEventListener('change',updateChanceInfo);
+document.getElementById('upgradeTarget').addEventListener('change',updateChanceInfo);
+document.getElementById('spinBtn').addEventListener('click',()=>{
+  const u=me();const msg=document.getElementById('upgradeMsg'),result=document.getElementById('wheelResult');
+  const sourceIdx=document.getElementById('upgradeSource').value,targetId=document.getElementById('upgradeTarget').value;
+  if(sourceIdx===''||!u.inventory.length){msg.textContent='⚠ Нет скинов.';return}
+  const src=u.inventory[parseInt(sourceIdx,10)];if(!src){msg.textContent='⚠ Скин не найден.';return}
+  const target=shopById(targetId);if(!target){msg.textContent='⚠ Выбери цель.';return}
+  if(target.p<=src.price){msg.textContent='⚠ Цель должна быть дороже.';return}
+  let chance=(src.price/target.p)*100;chance=Math.max(1,Math.min(90,chance));
+  msg.textContent='';result.textContent='';result.className='wheel-result';
+  const wheel=document.getElementById('wheel'),btn=document.getElementById('spinBtn');btn.disabled=true;
+  const roll=Math.random()*100,win=roll<chance;
+  const wa=chance/100*360;let finalAngle;
+  if(win){const m=Math.min(wa*0.15,10);finalAngle=360*8+m+Math.random()*(wa-m*2)}
+  else{const m=Math.min((360-wa)*0.15,10);finalAngle=360*8+wa+m+Math.random()*(360-wa-m*2)}
+  wheel.style.transition='none';wheel.style.transform='rotate(0deg)';
+  setTimeout(()=>{wheel.style.transition='transform 4.5s cubic-bezier(.17,.67,.12,1)';wheel.style.transform='rotate('+finalAngle+'deg)'},50);
+  setTimeout(()=>{
+    const u2=me();
+    if(win){u2.inventory.splice(parseInt(sourceIdx,10),1);u2.inventory.push({itemId:target.id,weapon:target.w,name:target.n,price:target.p,rarity:target.r,boughtAt:Date.now()});result.textContent='🎉 УСПЕХ! '+target.w+' | '+target.n;result.className='wheel-result win'}
+    else{const cb=Math.round(src.price*0.1);u2.balance+=cb;u2.inventory.splice(parseInt(sourceIdx,10),1);result.textContent='💀 Провал. Кэшбек: '+fmtMoney(cb);result.className='wheel-result lose'}
+    save();btn.disabled=false;updateTopBalance();setTimeout(()=>renderUpgrade(),200);
+  },4700);
+});
+
+/* ============================================================
+   СТАТИСТИКА
+   ============================================================ */
+function renderStats(){
+  const tbody=document.getElementById('statsTableBody');
+  tbody.innerHTML=Object.keys(state.users).map(l=>{
+    const u=state.users[l];const s=state.stats[l]||{kd:'0.00',wins:0,losses:0,hs:0,faceit:0,premier:0};
+    if(isLeader()){
+      return '<tr><td><b style="color:var(--text-strong)">'+esc(u.teamName)+'</b></td>'
+        +'<td><input class="stat-input" type="text" value="'+esc(s.kd)+'" data-st="kd" data-st-login="'+l+'"></td>'
+        +'<td><input class="stat-input" type="number" value="'+s.wins+'" data-st="wins" data-st-login="'+l+'"></td>'
+        +'<td><input class="stat-input" type="number" value="'+s.losses+'" data-st="losses" data-st-login="'+l+'"></td>'
+        +'<td><input class="stat-input" type="number" value="'+s.hs+'" data-st="hs" data-st-login="'+l+'"></td>'
+        +'<td><input class="stat-input" type="number" value="'+s.faceit+'" data-st="faceit" data-st-login="'+l+'"></td>'
+        +'<td><input class="stat-input" type="number" value="'+s.premier+'" data-st="premier" data-st-login="'+l+'"></td></tr>';
+    }
+    return '<tr><td><b style="color:var(--text-strong)">'+esc(u.teamName)+'</b></td>'
+      +'<td>'+esc(s.kd)+'</td><td>'+s.wins+'</td><td>'+s.losses+'</td><td>'+s.hs+'%</td><td>'+s.faceit+'</td><td>'+s.premier+'</td></tr>';
+  }).join('');
+}
+document.getElementById('saveStats').addEventListener('click',()=>{
+  if(!isLeader())return;
+  document.querySelectorAll('[data-st]').forEach(inp=>{
+    const l=inp.dataset.stLogin,field=inp.dataset.st;
+    if(!state.stats[l])state.stats[l]={kd:'0.00',wins:0,losses:0,hs:0,faceit:0,premier:0};
+    state.stats[l][field]=field==='kd'?inp.value:parseInt(inp.value,10)||0;
+  });
+  save();
+  const m=document.getElementById('statsMsg');m.textContent='✓ Статистика сохранена';setTimeout(()=>{m.textContent=''},2000);
+});
+
+/* ============================================================
+   ТУРНИРЫ
+   ============================================================ */
+document.getElementById('addTournament').addEventListener('click',()=>{
+  openModal('<h3>Новый турнир</h3>'
+    +'<label>Название<input id="tnTitle" placeholder="Apex Cup #1"></label>'
+    +'<label>Карта<input id="tnMap" placeholder="Mirage"></label>'
+    +'<label>Дата и время<input id="tnTime" type="datetime-local"></label>'
+    +'<div class="modal-actions"><button class="btn" id="tnCancel">Отмена</button><button class="btn primary" id="tnCreate">Создать</button></div>');
+  document.getElementById('tnCancel').onclick=closeModal;
+  document.getElementById('tnCreate').onclick=()=>{
+    const title=document.getElementById('tnTitle').value.trim(),map=document.getElementById('tnMap').value.trim(),time=document.getElementById('tnTime').value;
+    if(!title||!map||!time){alert('Заполните все поля.');return}
+    state.tournaments.push({id:uid(),title,map,time,votes:{},results:{}});
+    save();closeModal();renderTournaments();
+  };
+});
+function renderTournaments(){
+  const list=document.getElementById('tournamentsList');
+  if(!state.tournaments.length){list.innerHTML='<div class="empty">🏆 Турниров пока нет.</div>';return}
+  list.innerHTML=state.tournaments.map(t=>{
+    const my=t.votes[currentUser];
+    const voters=Object.keys(t.votes).map(l=>{const v=t.votes[l];return '<span class="voter '+v+'">'+esc(nameOf(l))+' — '+(v==='yes'?'Да':'Нет')+'</span>'}).join('');
+    const resultsHtml=Object.keys(state.users).map(l=>{
+      const r=t.results[l]||{kd:'',win:'',hs:0,place:''};
+      if(isLeader()){
+        return '<div class="result-row"><span class="name">'+esc(nameOf(l))+'</span>'
+          +'<div class="field">КД: <input type="text" value="'+esc(r.kd)+'" data-tr2="kd" data-tr2-t="'+t.id+'" data-tr2-l="'+l+'"></div>'
+          +'<div class="field">Результат: <select data-tr2="win" data-tr2-t="'+t.id+'" data-tr2-l="'+l+'"><option value="">—</option><option value="win" '+(r.win==='win'?'selected':'')+'>Победа</option><option value="lose" '+(r.win==='lose'?'selected':'')+'>Поражение</option></select></div>'
+          +'<div class="field">HS%: <input type="number" value="'+r.hs+'" data-tr2="hs" data-tr2-t="'+t.id+'" data-tr2-l="'+l+'"></div>'
+          +'<div class="field">Место: <input type="text" value="'+esc(r.place)+'" data-tr2="place" data-tr2-t="'+t.id+'" data-tr2-l="'+l+'"></div></div>';
+      }
+      return '<div class="result-row"><span class="name">'+esc(nameOf(l))+'</span><span>КД: '+esc(r.kd)+'</span><span>'+(r.win==='win'?'✅ Победа':r.win==='lose'?'❌ Поражение':'—')+'</span><span>HS: '+r.hs+'%</span><span>Место: '+esc(r.place)+'</span></div>';
+    }).join('');
+    return '<div class="tournament-result-card"><h4>🏆 '+esc(t.title)+' · '+esc(t.map)+' · '+new Date(t.time).toLocaleString('ru-RU')+'</h4>'
+      +'<div class="vote-row" style="margin-bottom:12px"><button class="vote yes '+(my==='yes'?'active':'')+'" data-vote="'+t.id+'" data-val="yes">Да</button><button class="vote no '+(my==='no'?'active':'')+'" data-vote="'+t.id+'" data-val="no">Нет</button></div>'
+      +'<div class="voters" style="margin-bottom:14px">'+(voters||'<span class="muted">Пока никто не голосовал</span>')+'</div>'
+      +'<h4 style="font-size:14px;color:var(--text-dim)">Результаты игроков:</h4>'+resultsHtml
+      +(isLeader()?'<button class="btn primary small" data-tr2-save="'+t.id+'" style="margin-top:10px">💾 Сохранить результаты</button>':'')
+      +'</div>';
+  }).join('');
+  document.querySelectorAll('[data-vote]').forEach(b=>{
+    b.addEventListener('click',()=>{const t=state.tournaments.find(x=>x.id===b.dataset.vote);if(!t)return;const v=b.dataset.val;if(t.votes[currentUser]===v)delete t.votes[currentUser];else t.votes[currentUser]=v;save();renderTournaments()});
+  });
+  document.querySelectorAll('[data-tr2-save]').forEach(b=>{
+    b.addEventListener('click',()=>{
+      const t=state.tournaments.find(x=>x.id===b.dataset.tr2Save);if(!t)return;
+      t.results=t.results||{};
+      document.querySelectorAll('[data-tr2-t="'+t.id+'"]').forEach(inp=>{
+        const l=inp.dataset.tr2L,f=inp.dataset.tr2;
+        if(!t.results[l])t.results[l]={kd:'',win:'',hs:0,place:''};
+        t.results[l][f]=f==='hs'?parseInt(inp.value,10)||0:inp.value;
+      });
+      save();renderTournaments();
+    });
+  });
+}
+
+/* ============================================================
+   ГАЙДЫ
+   ============================================================ */
+function renderGuides(){
+  const guides=[
+    {cat:'Раскидки',title:'Mirage: смок на A-site',desc:'Смок с T-спавна на A-сайт. Блокирует обзор с тетриса и джунглей. Бросай с позиции за ящиками, прицел на угол крыши.'},
+    {cat:'Раскидки',title:'Inferno: смок на банан',desc:'Смок с середины на банан. Отрезает обзор с арки и банана. Бросай с позиции у фонтана, прицел на верх банана.'},
+    {cat:'Раскидки',title:'Dust 2: смок на кросс',desc:'Смок с T-спавна на кросс. Блокирует обзор с AWP на кросс. Бросай с позиции у выхода из туннеля, прицел на небо.'},
+    {cat:'Раскидки',title:'Ancient: смок на B-site',desc:'Смок с T-раша на B. Блокирует обзор с тетриса и площадки. Бросай с позиции у входа в туннель.'},
+    {cat:'Подсады',title:'Mirage: подсад на тетрис',desc:'Подсад на тетрис с позиции у стены. Второй игрок прыгает на спину первому. Позволяет видеть весь A-site.'},
+    {cat:'Подсады',title:'Nuke: подсад на крышу',desc:'Подсад на крышу со стороны улицы. Второй игрок прыгает с ящиков на контейнер. Оттуда видно весь сайт.'},
+    {cat:'Подсады',title:'Overpass: подсад на банк',desc:'Подсад на выступ у банка. Второй игрок запрыгивает с ящика. Позволяет контролировать выход из туннеля.'},
+    {cat:'Контроль отдачи',title:'AK-47: спрей',desc:'Первые 10 пуль — вниз, потом влево-вправо. Зажимай короткими очередями по 3–5 пуль. На дистанции — одиночными.'},
+    {cat:'Контроль отдачи',title:'M4A4: спрей',desc:'Первые 8 пуль — вниз, потом влево. Зажимай по 4–6 пуль. На дальней дистанции — по 2–3 пули с паузой.'},
+    {cat:'Контроль отдачи',title:'AWP: быстрый выстрел',desc:'После выстрела сразу прячься за укрытие. Не стой на месте — двигайся после каждого выстрела.'},
+    {cat:'Позиции',title:'Mirage: неожиданные позиции',desc:'Сидя на ящике у B-site, можно видеть шорт и окно. Прыжок на подоконник у A-site даёт обзор на рампу.'},
+    {cat:'Позиции',title:'Dust 2: неожиданные позиции',desc:'Стоя на ящике в туннеле, можно видеть середину. С позиции у выхода на B можно контролировать туннель и сайт.'},
+    {cat:'Психология',title:'Как не волноваться при играх',desc:'Дыши глубоко 4 секунды вдох, 4 задержка, 4 выдох. Сфокусируйся на своей роли, а не на результате. Вспомни 3 успешных момента из прошлых игр.'},
+    {cat:'Психология',title:'Контроль тильта',desc:'После проигранного раунда сделай паузу 10 секунд. Скажи себе: «следующий раунд — новый». Не обвиняй тиммейтов — это ухудшает координацию.'},
+    {cat:'Психология',title:'Разминка перед игрой',desc:'15 минут aim_botz, 10 минут Deathmatch, 5 минут прыжков на карте. Не начинай игру без разминки — первые раунды будут провальными.'}
+  ];
+  document.getElementById('guideGrid').innerHTML=guides.map(g=>{
+    const bgColors={Раскидки:'#1256e0',Подсады:'#00b4ff','Контроль отдачи':'#8847ff',Позиции:'#00d68f',Психология:'#ffc800'};
+    const bg=bgColors[g.cat]||'#1e6fff';
+    return '<div class="guide-card"><div class="guide-thumb" style="background:linear-gradient(160deg,'+bg+',rgba(8,15,35,.9));display:flex;align-items:center;justify-content:center;font-size:44px">'
+      +(g.cat==='Раскидки'?'🎯':g.cat==='Подсады'?'🧗':g.cat==='Контроль отдачи'?'🔫':g.cat==='Позиции'?'📍':'🧠')+'</div>'
+      +'<div class="guide-body"><div class="guide-cat">'+esc(g.cat)+'</div>'
+      +'<div class="guide-title">'+esc(g.title)+'</div>'
+      +'<div class="guide-desc">'+esc(g.desc)+'</div></div></div>';
+  }).join('');
+}
+
+/* ============================================================
+   КВЕСТЫ
+   ============================================================ */
+document.querySelectorAll('.quest-tab').forEach(b=>{
+  b.addEventListener('click',()=>{
+    currentQuest=b.dataset.quest;
+    document.querySelectorAll('.quest-tab').forEach(x=>x.classList.toggle('active',x.dataset.quest===currentQuest));
+    document.getElementById('quest-balls').hidden=currentQuest!=='balls';
+    document.getElementById('quest-reaction').hidden=currentQuest!=='reaction';
+    if(currentQuest==='balls')initBalls();else resetReaction();
+  });
+});
+function renderQuests(){if(currentQuest==='balls')initBalls();else resetReaction()}
+function initBalls(){
+  const wall=document.getElementById('ballsWall');wall.innerHTML='';
+  for(let i=0;i<5;i++){
+    const b=document.createElement('div');b.className='ball';
+    const rect=wall.getBoundingClientRect();
+    b.style.left=(8+Math.random()*(rect.width-68))+'px';b.style.top=(8+Math.random()*(rect.height-68))+'px';
+    b.addEventListener('click',()=>{ballHits++;ballEarn+=50;addMoney(50);document.getElementById('ballsHits').textContent=ballHits;document.getElementById('ballsEarn').textContent=ballEarn+' ₽';const r=wall.getBoundingClientRect();b.style.left=(8+Math.random()*(r.width-68))+'px';b.style.top=(8+Math.random()*(r.height-68))+'px'});
+    wall.appendChild(b);
+  }
+}
+document.getElementById('ballsReset').addEventListener('click',()=>{ballHits=0;ballEarn=0;initBalls()});
+function resetReaction(){
+  const wall=document.getElementById('reactionWall');if(!wall)return;
+  clearTimeout(reactTimeout);reactState='idle';wall.className='reaction-wall idle';wall.textContent='Нажми, чтобы начать';
+  document.getElementById('reactionTime').textContent='—';document.getElementById('reactionReward').textContent='0 ₽';
+  renderReactionHistory();
+}
+function renderReactionHistory(){
+  const box=document.getElementById('reactionHistory');if(!box)return;
+  if(!reactionHistory.length){box.innerHTML='';return}
+  box.innerHTML=reactionHistory.slice(-10).reverse().map(r=>{
+    const cls=r.ms<200?'gold':(r.ms<350?'silver':'bronze');
+    return '<span class="reaction-chip '+cls+'">'+r.ms+' мс · +'+fmtMoney(r.reward)+'</span>';
+  }).join('');
+}
+document.addEventListener('click',e=>{
+  if(e.target.id!=='reactionWall')return;
+  const wall=e.target;
+  if(reactState==='idle'){reactState='waiting';wall.className='reaction-wall wait';wall.textContent='Жди зелёного…';reactTimeout=setTimeout(()=>{reactState='ready';wall.className='reaction-wall go';wall.textContent='ЖМИ!';reactStartTime=performance.now()},1000+Math.random()*9000)}
+  else if(reactState==='waiting'){clearTimeout(reactTimeout);reactState='idle';wall.className='reaction-wall early';wall.textContent='Рано!';setTimeout(resetReaction,1200)}
+  else if(reactState==='ready'){
+    const ms=Math.round(performance.now()-reactStartTime);let reward=5;
+    if(ms>=100&&ms<=200)reward=300;else if(ms>200&&ms<=350)reward=90;
+    addMoney(reward);reactState='done';wall.className='reaction-wall result';
+    wall.textContent='Реакция: '+ms+' мс — +'+fmtMoney(reward);
+    document.getElementById('reactionTime').textContent=ms+' мс';document.getElementById('reactionReward').textContent=fmtMoney(reward);
+    reactionHistory.push({ms,reward});renderReactionHistory();setTimeout(resetReaction,2200);
+  }
+});
+
+/* ============================================================
+   КАРТЫ
+   ============================================================ */
+function renderMaps(){
+  const tabsEl=document.getElementById('mapTabs');
+  tabsEl.innerHTML=['all','Active Duty','Competitive'].map(m=>'<button class="map-tab'+(m===currentMapTab?' active':'')+'" data-map-tab="'+m+'">'+(m==='all'?'Все':m)+'</button>').join('');
+  tabsEl.querySelectorAll('[data-map-tab]').forEach(b=>b.addEventListener('click',()=>{currentMapTab=b.dataset.mapTab;renderMaps()}));
+  const filtered=currentMapTab==='all'?CS2_MAPS:CS2_MAPS.filter(m=>m.mode===currentMapTab);
+  document.getElementById('mapsGrid').innerHTML=filtered.map(m=>'<div class="map-card"><img class="map-thumb" src="'+radarUrl(m.id)+'" alt="'+esc(m.name)+'" onerror="this.style.opacity=\'.15\'"><div class="map-body"><div class="map-mode">'+esc(m.mode)+'</div><div class="map-name">'+esc(m.name)+'</div><div class="map-desc">'+esc(m.desc)+'</div><div class="map-actions"><button class="btn primary" data-view-map="'+m.id+'">🗺 Смотреть</button></div></div></div>').join('');
+  document.querySelectorAll('[data-view-map]').forEach(b=>b.addEventListener('click',()=>{
+    const m=CS2_MAPS.find(x=>x.id===b.dataset.viewMap);if(!m)return;
+    const url=radarUrl(m.id);
+    openModal('<h3>🗺 '+esc(m.name)+'</h3><div class="map-viewer"><div class="map-loading" id="mapLoading">Загрузка…</div><img id="mapRadarImg" src="'+url+'" onclick="window.open(\''+url+'\',\'_blank\')"></div><div class="modal-actions"><button class="btn" onclick="document.getElementById(\'modalBackdrop\').hidden=true;document.getElementById(\'modalBox\').innerHTML=\'\'">Закрыть</button></div>');
+    const img=document.getElementById('mapRadarImg'),loading=document.getElementById('mapLoading');
+    img.onload=()=>{if(loading)loading.remove()};img.onerror=()=>{if(loading)loading.textContent='⚠ Не удалось загрузить'};
+  }));
+}
+
+/* ============================================================
+   ССЫЛКИ
+   ============================================================ */
+function renderLinks(){
+  if(!isLeader()){document.getElementById('linksList').innerHTML='';return}
+  document.getElementById('linksList').innerHTML=Object.keys(state.users).map(l=>{
+    const u=state.users[l];const link=(location.origin==='null'?location.pathname:location.origin+location.pathname)+'#'+l;
+    return '<div class="link-row"><div class="who"><span class="role">'+(u.role==='leader'?'👑 Лидер':'Игрок')+'</span>'+esc(u.teamName)+'</div><input type="text" value="'+esc(link)+'" readonly onclick="this.select()"><button class="copy" data-copy="'+esc(link)+'">Копировать</button></div>';
+  }).join('');
+  document.querySelectorAll('[data-copy]').forEach(b=>b.addEventListener('click',()=>{
+    const link=b.dataset.copy;
+    const done=()=>{b.textContent='✓';b.classList.add('done');setTimeout(()=>{b.textContent='Копировать';b.classList.remove('done')},1500)};
+    if(navigator.clipboard)navigator.clipboard.writeText(link).then(done).catch(done);else done();
+  }));
+}
+
+/* ============================================================
+   НАСТРОЙКИ
+   ============================================================ */
+function renderSettings(){
+  const u=state.users[currentUser];
+  document.getElementById('setName').value=u.teamName;
+  document.getElementById('avatarPreview').src=u.avatar||defaultAvatar(u.teamName);
+  document.querySelectorAll('[data-theme-btn]').forEach(b=>b.classList.toggle('active',b.dataset.themeBtn===(u.theme||'dark')));
+}
+document.getElementById('setAvatar').addEventListener('change',e=>{
+  const f=e.target.files&&e.target.files[0];if(!f)return;
+  const r=new FileReader();r.onload=ev=>{const img=new Image();img.onload=()=>{const S=160;const c=document.createElement('canvas');c.width=c.height=S;const x=c.getContext('2d');const sc=Math.max(S/img.width,S/img.height);const w=img.width*sc,h=img.height*sc;x.drawImage(img,(S-w)/2,(S-h)/2,w,h);state.users[currentUser].avatar=c.toDataURL('image/jpeg',0.85);save();document.getElementById('avatarPreview').src=state.users[currentUser].avatar;document.getElementById('userAvatar').src=state.users[currentUser].avatar};img.src=ev.target.result};r.readAsDataURL(f);
+});
+document.getElementById('saveProfile').addEventListener('click',()=>{
+  const u=state.users[currentUser];const nn=document.getElementById('setName').value.trim();
+  if(!nn){alert('Имя не пустое.');return}
+  u.teamName=nn;save();document.getElementById('userName').textContent=nn;
+  const m=document.getElementById('profileMsg');m.textContent='✓ Сохранено';setTimeout(()=>{m.textContent=''},2000);
+});
+document.querySelectorAll('[data-theme-btn]').forEach(b=>b.addEventListener('click',()=>{state.users[currentUser].theme=b.dataset.themeBtn;save();applyTheme(b.dataset.themeBtn);renderSettings()}));
+
+/* ============ СТАРТ ============ */
+state=loadState();save();
+if(state.session&&state.users[state.session]){currentUser=state.session;render()}
+else{render()}
+
+})();
+</script>
+</body>
+</html>
